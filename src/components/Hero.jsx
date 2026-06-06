@@ -4,7 +4,7 @@ import TextType from './TextType';
 
 export default function Hero() {
   return (
-    <section id="top" className="relative z-10 px-5 pt-24 pb-40 sm:px-8 sm:pt-32" style={{ background: '#000000' }}>
+    <section id="top" className="relative px-5 pt-24 pb-40 sm:px-8 sm:pt-32" style={{ background: '#000000', zIndex: 1 }}>
       <div className="absolute inset-0 z-0" aria-hidden="true">
         <Beams
           beamWidth={2.2}
