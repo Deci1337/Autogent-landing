@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
           <div>
             <a href="#top" className="font-display text-[1.6rem] font-extrabold tracking-tight text-ink">
-              Autogent<span className="text-orange">.</span>
+              <span>Auto<span className="text-orange">gent</span></span>
             </a>
             <p className="mt-4 max-w-sm text-[1.02rem] leading-relaxed text-ink/55">
               Проектируем и внедряем ИИ-агентов для внутренних операций бизнеса.
