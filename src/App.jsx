@@ -1,4 +1,4 @@
-// GlowField removed — conflicts with Dither hero background
+import { useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Pain from './components/Pain';
@@ -13,6 +13,10 @@ import AuditCTA from './components/AuditCTA';
 import Footer from './components/Footer';
 
 export default function App() {
+  useEffect(() => {
+    document.documentElement.style.background = '#FFF5EE';
+  }, []);
+
   return (
     <div className="field-grain">
       <Header />
