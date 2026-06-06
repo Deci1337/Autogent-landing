@@ -28,13 +28,13 @@ export default function Capabilities() {
               glowIntensity={1.2}
               coneSpread={22}
             >
-              <div className="flex items-start justify-between gap-6 p-8 md:p-9">
-                <div>
+              <div className="flex flex-col p-7 md:p-9 gap-3">
+                <div className="flex items-start justify-between gap-3">
                   <span className="eyebrow text-[11px] text-orange">{c.k}</span>
-                  <h3 className="mt-3 font-display text-[1.7rem] font-bold display-tight text-ink">{c.t}</h3>
-                  <p className="mt-3 max-w-sm text-[1.05rem] leading-relaxed text-ink/60">{c.d}</p>
+                  <span className="font-display text-[1.2rem] font-extrabold text-orange/85 display-tight text-right leading-tight">{c.big}</span>
                 </div>
-                <span className="shrink-0 font-display text-[1.6rem] font-extrabold text-orange/85 display-tight">{c.big}</span>
+                <h3 className="font-display text-[1.5rem] font-bold display-tight text-ink">{c.t}</h3>
+                <p className="text-[1rem] leading-relaxed text-ink/60">{c.d}</p>
               </div>
             </BorderGlow>
           </Reveal>
