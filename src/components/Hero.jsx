@@ -18,8 +18,7 @@ export default function Hero() {
         />
       </div>
       {/* bottom half fades to seashell */}
-      <div className="pointer-events-none absolute bottom-0 inset-x-0 z-[1]" style={{
-        height: '10%',
+      <div className="pointer-events-none absolute bottom-0 inset-x-0 z-[1] h-[8%] sm:h-[10%]" style={{
         background: 'linear-gradient(to bottom, rgba(255,245,238,0) 0%, rgba(255,245,238,1) 100%)'
       }} />
       <div className="relative z-10 mx-auto w-full max-w-[1100px] text-center">
