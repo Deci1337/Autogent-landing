@@ -1,0 +1,37 @@
+// GlowField removed — conflicts with Dither hero background
+import Header from './components/Header';
+import Hero from './components/Hero';
+import Pain from './components/Pain';
+import Capabilities from './components/Capabilities';
+import Integrations from './components/Integrations';
+import CaseArchetypes from './components/CaseArchetypes';
+import CasesShowcase from './components/CasesShowcase';
+import HowItWorks from './components/HowItWorks';
+import Objections from './components/Objections';
+import FaqSection from './components/FaqSection';
+import AuditCTA from './components/AuditCTA';
+import Footer from './components/Footer';
+
+export default function App() {
+  return (
+    <div className="field-grain">
+      <Header />
+      <main>
+        <Hero />
+        {/* seashell backdrop covers GlowField blobs below hero */}
+        <div style={{ position: 'relative', zIndex: 10, background: '#FFF5EE' }}>
+        <Pain />
+        <Capabilities />
+        <Integrations />
+        <CaseArchetypes />
+        <CasesShowcase />
+        <HowItWorks />
+        <Objections />
+        <FaqSection />
+        <AuditCTA />
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+}
