@@ -23,7 +23,7 @@ export default function App() {
       <main>
         <Hero />
         {/* seashell backdrop covers GlowField blobs below hero */}
-        <div style={{ position: 'relative', zIndex: 10, background: '#FFF5EE' }}>
+        <div style={{ background: '#FFF5EE' }}>
         <Pain />
         <Capabilities />
         <Integrations />
