@@ -364,20 +364,20 @@ function CaseCard({ c, onClick }) {
   return (
     <button
       onClick={onClick}
-      className="group snap-start shrink-0 w-[260px] sm:w-[300px] flex flex-col justify-between text-left rounded-[20px] bg-white/60 ring-1 ring-ink/[0.08] p-6 shadow-[0_2px_16px_rgba(10,10,10,.06)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_8px_32px_rgba(10,10,10,.10)] hover:bg-white/90 focusring"
+      className="group snap-start shrink-0 w-[272px] h-[300px] flex flex-col justify-between text-left rounded-[20px] bg-white/70 ring-1 ring-ink/[0.08] p-6 shadow-[0_2px_16px_rgba(10,10,10,.06)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_8px_32px_rgba(10,10,10,.10)] hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-orange/60"
     >
-      <div className="flex-1 flex flex-col">
+      <div className="flex flex-col overflow-hidden">
         <span className="eyebrow text-[11px] text-orange">{c.tag}</span>
-        <h3 className="mt-3 font-display text-[1.1rem] font-bold display-tight text-ink leading-snug">
+        <h3 className="mt-3 font-display text-[1.08rem] font-bold display-tight text-ink leading-snug line-clamp-3">
           {c.title}
         </h3>
-        <p className="mt-3 text-[0.93rem] leading-relaxed text-ink/55 line-clamp-2">{c.result}</p>
+        <p className="mt-2.5 text-[0.9rem] leading-relaxed text-ink/50 line-clamp-2">{c.result}</p>
       </div>
 
-      <div className="mt-5 flex flex-col gap-3">
+      <div className="flex flex-col gap-2.5 mt-auto pt-4">
         <div className="flex flex-wrap gap-1.5">
           {c.agents.map((a) => (
-            <span key={a} className="inline-flex items-center gap-1.5 rounded-full bg-orange/[0.09] px-3 py-1 text-[12px] font-medium text-orange">
+            <span key={a} className="inline-flex items-center gap-1.5 rounded-full bg-orange/[0.09] px-3 py-1 text-[11.5px] font-medium text-orange">
               {a}
             </span>
           ))}
@@ -424,45 +424,37 @@ export default function CasesShowcase() {
   return (
     <>
       <Section id="cases" className="py-20 md:py-28">
-        <div className="flex items-end justify-between gap-4">
-          <SectionHeader
-            index="05" kicker="Кейсы"
-            title={<>Что уже <span className="text-orange">работает</span> у клиентов</>}
-            intro="Реальные внедрения с измеримыми результатами — от аудита до запуска."
-          />
-          {/* nav arrows desktop */}
-          <div className="hidden sm:flex items-center gap-2 shrink-0 pb-1">
-            <button
-              onClick={() => scroll(-1)}
-              disabled={!canLeft}
-              className="grid h-10 w-10 place-items-center rounded-full ring-1 ring-ink/10 bg-white/70 text-ink/60 transition-all duration-200 hover:bg-white hover:text-ink disabled:opacity-25 disabled:cursor-not-allowed focusring"
-              aria-label="Прокрутить влево"
-            >
-              <ChevronIcon dir="left" />
-            </button>
-            <button
-              onClick={() => scroll(1)}
-              disabled={!canRight}
-              className="grid h-10 w-10 place-items-center rounded-full ring-1 ring-ink/10 bg-white/70 text-ink/60 transition-all duration-200 hover:bg-white hover:text-ink disabled:opacity-25 disabled:cursor-not-allowed focusring"
-              aria-label="Прокрутить вправо"
-            >
-              <ChevronIcon dir="right" />
-            </button>
-          </div>
-        </div>
+        <SectionHeader
+          index="05" kicker="Кейсы"
+          title={<>Что уже <span className="text-orange">работает</span> у клиентов</>}
+          intro="Реальные внедрения с измеримыми результатами — от аудита до запуска."
+        />
 
-        {/* полоска с карточками */}
-        <div className="relative mt-10">
-          {/* fade left */}
-          <div className={`pointer-events-none absolute left-0 top-0 bottom-0 w-12 z-10 transition-opacity duration-300 ${canLeft ? 'opacity-100' : 'opacity-0'}`}
-            style={{ background: 'linear-gradient(to right, #FFF5EE, transparent)' }} />
-          {/* fade right */}
-          <div className={`pointer-events-none absolute right-0 top-0 bottom-0 w-16 z-10 transition-opacity duration-300 ${canRight ? 'opacity-100' : 'opacity-0'}`}
-            style={{ background: 'linear-gradient(to left, #FFF5EE, transparent)' }} />
+        {/* полоска с карточками + стрелки по бокам */}
+        <div className="relative mt-10 -mx-5 sm:-mx-8">
+          {/* стрелка влево */}
+          <button
+            onClick={() => scroll(-1)}
+            disabled={!canLeft}
+            className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 z-20 grid h-10 w-10 place-items-center rounded-full bg-white shadow-[0_2px_12px_rgba(10,10,10,.12)] ring-1 ring-ink/[0.07] text-ink/60 transition-all duration-200 hover:text-ink hover:shadow-[0_4px_20px_rgba(10,10,10,.16)] disabled:opacity-0 disabled:pointer-events-none focus:outline-none"
+            aria-label="Прокрутить влево"
+          >
+            <ChevronIcon dir="left" />
+          </button>
+
+          {/* стрелка вправо */}
+          <button
+            onClick={() => scroll(1)}
+            disabled={!canRight}
+            className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 z-20 grid h-10 w-10 place-items-center rounded-full bg-white shadow-[0_2px_12px_rgba(10,10,10,.12)] ring-1 ring-ink/[0.07] text-ink/60 transition-all duration-200 hover:text-ink hover:shadow-[0_4px_20px_rgba(10,10,10,.16)] disabled:opacity-0 disabled:pointer-events-none focus:outline-none"
+            aria-label="Прокрутить вправо"
+          >
+            <ChevronIcon dir="right" />
+          </button>
 
           <div
             ref={scrollRef}
-            className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-5 px-5 sm:-mx-8 sm:px-8"
+            className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 px-5 sm:px-8"
             style={{ scrollbarWidth: 'none' }}
           >
             {CASES.map((c, i) => (
@@ -470,29 +462,8 @@ export default function CasesShowcase() {
                 <CaseCard c={c} onClick={() => setActive(c)} />
               </Reveal>
             ))}
-            {/* trailing space */}
             <div className="shrink-0 w-1" aria-hidden="true" />
           </div>
-        </div>
-
-        {/* nav arrows mobile */}
-        <div className="flex sm:hidden items-center justify-center gap-3 mt-5">
-          <button
-            onClick={() => scroll(-1)}
-            disabled={!canLeft}
-            className="grid h-10 w-10 place-items-center rounded-full ring-1 ring-ink/10 bg-white/70 text-ink/60 disabled:opacity-25 focusring"
-            aria-label="Прокрутить влево"
-          >
-            <ChevronIcon dir="left" />
-          </button>
-          <button
-            onClick={() => scroll(1)}
-            disabled={!canRight}
-            className="grid h-10 w-10 place-items-center rounded-full ring-1 ring-ink/10 bg-white/70 text-ink/60 disabled:opacity-25 focusring"
-            aria-label="Прокрутить вправо"
-          >
-            <ChevronIcon dir="right" />
-          </button>
         </div>
       </Section>
 
