@@ -107,8 +107,6 @@ export function SectionHeader({ index, kicker, title, intro, align = 'left', max
   return (
     <div className={`${center ? 'mx-auto text-center' : ''} ${max}`}>
       <Reveal className="flex items-center gap-3" style={center ? { justifyContent: 'center' } : {}}>
-        <span className="eyebrow text-[12px] text-orange2">{index}</span>
-        <span className="h-px w-8 bg-orange/40" />
         <span className="eyebrow text-[12px] text-ink/45">{kicker}</span>
       </Reveal>
       <Reveal as="h2" delay={60} className="mt-5 font-display font-extrabold display-tight text-[clamp(2rem,4.6vw,3.5rem)] text-ink">
