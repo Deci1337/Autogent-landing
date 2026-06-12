@@ -1,6 +1,5 @@
 import { Reveal, Pill, Chip } from './shared';
 import Beams from './Beams';
-import TextType from './TextType';
 
 export default function Hero() {
   return (
@@ -17,36 +16,37 @@ export default function Hero() {
           rotation={40}
         />
       </div>
-      {/* bottom half fades to seashell */}
       <div className="pointer-events-none absolute bottom-0 inset-x-0 z-[1] h-[8%] sm:h-[10%]" style={{
         background: 'linear-gradient(to bottom, rgba(255,245,238,0) 0%, rgba(255,245,238,1) 100%)'
       }} />
+
       <div className="relative z-10 mx-auto w-full max-w-[1100px] text-center">
-        <Reveal as="h1" delay={80} className="mx-auto mt-7 max-w-[15ch] font-display font-extrabold display-tight text-[clamp(1.9rem,5.6vw,4.7rem)] text-white text-balance">
-          <span style={{ color: '#FFF5EE' }}>ИИ-агенты, которые </span><span className="text-orange">забирают рутину</span><span style={{ color: '#FFF5EE' }}> вашей команды и работают </span><span className="text-orange">без выходных</span>
+        <Reveal as="h1" delay={80} className="mx-auto mt-7 max-w-[20ch] font-display font-extrabold display-tight text-[clamp(2rem,5.6vw,4.7rem)] text-white text-balance leading-[1.08]">
+          Внедрите ИИ в свой бизнес{' '}
+          <span className="text-orange">раньше конкурентов</span>
         </Reveal>
 
-        <Reveal delay={160} className="mx-auto mt-8 max-w-[58ch] text-[clamp(1.1rem,1.9vw,1.4rem)] leading-relaxed text-white/60 min-h-[2.2em] flex items-center justify-center">
-          <TextType
-            text={['Продажи', 'Поддержка', 'Внутренние знания', 'Скорость', 'Ведение CRM', 'Работа 24/7']}
-            typingSpeed={45}
-            deletingSpeed={25}
-            pauseDuration={1000}
-            cursorCharacter="|"
-            cursorClassName="text-orange"
-            cursorBlinkDuration={0.9}
-            className="text-white/70 text-[clamp(1.15rem,2.8vw,2.2rem)] font-semibold"
-          />
+        <Reveal delay={180} className="mx-auto mt-7 max-w-[50ch] text-[clamp(1rem,1.8vw,1.2rem)] leading-relaxed text-white/55">
+          Первые компании уже сократили ФОТ на 200–900 тыс./мес и утроили скорость работы команды. Мы помогаем войти в эту группу.
         </Reveal>
 
-        <Reveal delay={240} className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row sm:mt-10">
-          <Pill href="#audit" variant="primary" arrow className="w-full sm:w-auto">Получить бесплатный аудит</Pill>
-          <Pill href="#how" variant="link" className="!text-white/70 hover:!text-white">Как это работает →</Pill>
+        <Reveal delay={260} className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row sm:mt-10">
+          <Pill href="#audit" variant="primary" arrow className="w-full sm:w-auto">
+            Получить разбор за 45 минут
+          </Pill>
+          <Pill href="#how" variant="link" className="!text-white/65 hover:!text-white">
+            Узнать, что автоматизировать первым →
+          </Pill>
         </Reveal>
 
-        <Reveal delay={320} className="mt-6 sm:mt-10 flex flex-row flex-wrap items-center justify-center gap-2">
-          <Chip className="!bg-white/10 !text-white/80 !ring-white/15 !text-[13px]">Работаем 24/7</Chip>
-          <Chip className="!bg-white/10 !text-white/80 !ring-white/15 !text-[13px]">ИИ под ваш бизнес</Chip>
+        <Reveal delay={320} className="mt-4 text-[12.5px] text-white/30 leading-snug">
+          Разбор ни к чему не обязывает&nbsp;·&nbsp;Дадим бесплатные ИИ-инструменты&nbsp;·&nbsp;Предложим услуги без давления
+        </Reveal>
+
+        <Reveal delay={390} className="mt-7 sm:mt-8 flex flex-row flex-wrap items-center justify-center gap-2">
+          <Chip className="!bg-white/10 !text-white/75 !ring-white/15 !text-[13px]">13 кейсов</Chip>
+          <Chip className="!bg-white/10 !text-white/75 !ring-white/15 !text-[13px]">Кастом под процессы</Chip>
+          <Chip className="!bg-white/10 !text-white/75 !ring-white/15 !text-[13px]">Запуск от 3 недель</Chip>
         </Reveal>
       </div>
     </section>
