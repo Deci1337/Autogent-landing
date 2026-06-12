@@ -1,4 +1,4 @@
-import { Reveal, Pill, Chip } from './shared';
+import { Reveal, Pill } from './shared';
 import Beams from './Beams';
 
 export default function Hero() {
@@ -32,7 +32,7 @@ export default function Hero() {
 
         <Reveal delay={260} className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row sm:mt-10">
           <Pill href="#audit" variant="primary" arrow className="w-full sm:w-auto">
-            Получить разбор за 45 минут
+            Получить разбор за 25 минут
           </Pill>
           <Pill href="#how" variant="link" className="!text-white/65 hover:!text-white">
             Узнать, что автоматизировать первым →
@@ -40,13 +40,7 @@ export default function Hero() {
         </Reveal>
 
         <Reveal delay={320} className="mt-4 text-[12.5px] text-white/30 leading-snug">
-          Разбор ни к чему не обязывает&nbsp;·&nbsp;Дадим бесплатные ИИ-инструменты&nbsp;·&nbsp;Предложим услуги без давления
-        </Reveal>
-
-        <Reveal delay={390} className="mt-7 sm:mt-8 flex flex-row flex-wrap items-center justify-center gap-2">
-          <Chip className="!bg-white/10 !text-white/75 !ring-white/15 !text-[13px]">13 кейсов</Chip>
-          <Chip className="!bg-white/10 !text-white/75 !ring-white/15 !text-[13px]">Кастом под процессы</Chip>
-          <Chip className="!bg-white/10 !text-white/75 !ring-white/15 !text-[13px]">Запуск от 3 недель</Chip>
+          Разбор ни к чему не обязывает: дадим бесплатные ИИ-инструменты и предложим наши услуги
         </Reveal>
       </div>
     </section>

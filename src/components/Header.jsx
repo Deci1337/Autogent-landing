@@ -29,7 +29,7 @@ export default function Header() {
             <a href="#how" className={`transition-colors ${dark ? 'hover:text-white' : 'hover:text-ink'}`}>Как это работает</a>
             <a href="#faq" className={`transition-colors ${dark ? 'hover:text-white' : 'hover:text-ink'}`}>Вопросы</a>
           </nav>
-          <Pill href="#audit" variant="primary" className="!px-5 !py-3 !text-[14px]">Получить аудит</Pill>
+          <Pill href="#audit" variant="primary" className="!px-5 !py-3 !text-[14px]">Разобрать мой бизнес бесплатно</Pill>
         </div>
       </div>
     </header>
