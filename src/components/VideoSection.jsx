@@ -9,8 +9,12 @@ export default function VideoSection() {
       <div className="mx-auto max-w-3xl">
 
         <Reveal delay={0} className="mb-8 text-center">
-          <p className="font-display text-[clamp(1.2rem,2.5vw,1.6rem)] font-bold text-ink leading-snug text-balance">
-            Если вы ещё не понимаете с чего начать — в этом видео мы кратко разбираем суть внедрения ИИ на примерах реальных компаний
+          <p className="text-[0.95rem] font-medium text-ink/40 tracking-wide uppercase mb-3">
+            Не знаете с чего начать?
+          </p>
+          <p className="font-display text-[clamp(1.2rem,2.5vw,1.55rem)] font-bold text-ink leading-snug text-balance">
+            В этом видео разбираем суть внедрения ИИ на{' '}
+            <span className="text-orange">примерах реальных компаний</span>
           </p>
         </Reveal>
 
