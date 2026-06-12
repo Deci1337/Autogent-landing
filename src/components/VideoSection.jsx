@@ -8,8 +8,14 @@ export default function VideoSection() {
     <Section id="story" className="py-20 md:py-28">
       <div className="mx-auto max-w-3xl">
 
+        <Reveal delay={0} className="mb-8 text-center">
+          <p className="font-display text-[clamp(1.2rem,2.5vw,1.6rem)] font-bold text-ink leading-snug text-balance">
+            Если вы ещё не понимаете с чего начать — в этом видео мы кратко разбираем суть внедрения ИИ на примерах реальных компаний
+          </p>
+        </Reveal>
+
         {/* видео */}
-        <Reveal delay={0}>
+        <Reveal delay={80}>
           <div className="relative w-full rounded-xl3 overflow-hidden bg-ink aspect-video shadow-soft ring-1 ring-ink/10">
             {VIDEO_SRC ? (
               <iframe
