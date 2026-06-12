@@ -1,15 +1,12 @@
 import { useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
-import Pain from './components/Pain';
-import Capabilities from './components/Capabilities';
-import Integrations from './components/Integrations';
-import CaseArchetypes from './components/CaseArchetypes';
+import VideoSection from './components/VideoSection';
 import CasesShowcase from './components/CasesShowcase';
-import ValueProps from './components/ValueProps';
+import Capabilities from './components/Capabilities';
 import HowItWorks from './components/HowItWorks';
-import Objections from './components/Objections';
-import FaqSection from './components/FaqSection';
+import Integrations from './components/Integrations';
+import AgentChat from './components/AgentChat';
 import AuditCTA from './components/AuditCTA';
 import Footer from './components/Footer';
 
@@ -23,18 +20,14 @@ export default function App() {
       <Header />
       <main>
         <Hero />
-        {/* seashell backdrop covers GlowField blobs below hero */}
         <div style={{ background: '#FFF5EE' }}>
-        <ValueProps />
-        <Pain />
-        <Capabilities />
-        <Integrations />
-        <CaseArchetypes />
-        <CasesShowcase />
-        <HowItWorks />
-        <Objections />
-        <FaqSection />
-        <AuditCTA />
+          <VideoSection />
+          <CasesShowcase />
+          <Capabilities />
+          <HowItWorks />
+          <Integrations />
+          <AgentChat />
+          <AuditCTA />
         </div>
       </main>
       <Footer />
