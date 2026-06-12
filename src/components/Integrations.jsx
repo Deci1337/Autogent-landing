@@ -1,14 +1,14 @@
 import { Reveal, Section, SectionHeader } from './shared';
 
 const STACK = [
-  { group: 'Каналы', items: ['WhatsApp', 'Telegram', 'ВКонтакте', 'Instagram', 'Авито', 'Email'] },
+  { group: 'Каналы', items: ['WhatsApp', 'Telegram', 'ВКонтакте', 'Instagram', 'Авито', 'Email', 'сайт и другие'] },
   { group: 'CRM', items: ['Bitrix24', 'AmoCRM', 'RetailCRM', 'OkoCRM'] },
   { group: 'Учёт и ERP', items: ['1С', 'МойСклад'] },
   { group: 'Маркетплейсы', items: ['Wildberries', 'Ozon', 'Яндекс.Маркет'] },
   { group: 'Доставка', items: ['СДЭК', 'Boxberry', 'Яндекс.Доставка', 'Почта России'] },
   { group: 'Данные и знания', items: ['Google Sheets', 'Notion', 'Confluence', 'RAG / база знаний', 'FAQ компании'] },
   { group: 'Голос и телефония', items: ['Yandex SpeechKit', 'Mango Office', 'Zadarma'] },
-  { group: 'ИИ модели', items: ['GPT-4o', 'YandexGPT', 'GigaChat и другие'] },
+  { group: 'ИИ модели', items: ['GPT-4o', 'YandexGPT', 'GigaChat', 'Anthropic Claude и другие'] },
 ];
 
 export default function Integrations() {

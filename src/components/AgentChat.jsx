@@ -50,11 +50,12 @@ export default function AgentChat() {
   const [messages, setMessages] = useState([{ role: 'agent', text: GREETING }]);
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
-  const bottomRef = useRef(null);
+  const listRef = useRef(null);
   const inputRef = useRef(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const el = listRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
   }, [messages, typing]);
 
   async function send(text) {
@@ -82,7 +83,7 @@ export default function AgentChat() {
         <div className="rounded-xl3 overflow-hidden ring-1 ring-ink/[0.08] shadow-softer bg-white/70">
 
           {/* messages */}
-          <div className="flex flex-col gap-3 px-5 py-5 max-h-[340px] overflow-y-auto">
+          <div ref={listRef} className="flex flex-col gap-3 px-5 py-5 max-h-[340px] overflow-y-auto">
             {messages.map((m, i) => (
               <div key={i} className={`flex items-end gap-2.5 ${m.role === 'user' ? 'flex-row-reverse' : ''}`}>
                 {m.role === 'agent' && (
@@ -119,7 +120,6 @@ export default function AgentChat() {
                 </div>
               </div>
             )}
-            <div ref={bottomRef} />
           </div>
 
           {/* quick questions */}
