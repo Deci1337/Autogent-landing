@@ -385,10 +385,10 @@ function CaseModal({ c, onClose }) {
 function CaseCard({ c, onClick }) {
   return (
     <TiltedCard
-      containerWidth="330px"
-      containerHeight="355px"
-      imageWidth="330px"
-      imageHeight="355px"
+      containerWidth="365px"
+      containerHeight="444px"
+      imageWidth="365px"
+      imageHeight="444px"
       scaleOnHover={1.04}
       rotateAmplitude={9}
       showTooltip={false}
@@ -451,7 +451,7 @@ export default function CasesShowcase() {
   const scroll = (dir) => {
     const el = scrollRef.current;
     if (!el) return;
-    el.scrollBy({ left: dir * 355, behavior: 'smooth' });
+    el.scrollBy({ left: dir * 385, behavior: 'smooth' });
   };
 
   return (
