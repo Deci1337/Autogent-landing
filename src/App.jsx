@@ -13,6 +13,7 @@ import Footer from './components/Footer';
 export default function App() {
   useEffect(() => {
     document.documentElement.style.background = '#FFF5EE';
+    document.body.style.background = '#FFF5EE';
   }, []);
 
   return (
@@ -20,7 +21,7 @@ export default function App() {
       <Header />
       <main>
         <Hero />
-        <div style={{ background: '#FFF5EE' }}>
+        <div style={{ background: '#FFF5EE', marginTop: '-3px', paddingTop: '3px' }}>
           <VideoSection />
           <CasesShowcase />
           <Capabilities />
