@@ -22,7 +22,7 @@ export default function Hero() {
       }} />
 
       <div className="relative z-10 mx-auto w-full max-w-[1100px] text-center mt-16 sm:mt-20">
-        <Reveal as="h1" delay={80} className="mx-auto mt-7 font-display font-extrabold display-tight text-[clamp(2.3rem,6.4vw,5.4rem)] text-white leading-[1.08]">
+        <Reveal as="h1" delay={80} className="mx-auto mt-7 font-display font-extrabold text-[clamp(2.3rem,6.4vw,5.4rem)] text-white leading-[1.15]" style={{ letterSpacing: '-0.01em' }}>
           Внедрите ИИ<br />в свой бизнес<br /><span className="text-orange">раньше конкурентов</span>
         </Reveal>
 
