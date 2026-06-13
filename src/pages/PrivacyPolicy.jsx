@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 
-const OPERATOR = '[НАЗВАНИЕ КОМПАНИИ / ИП]';
-const INN      = '[ИНН]';
-const ADDRESS  = '[ЮРИДИЧЕСКИЙ АДРЕС]';
-const EMAIL    = '[EMAIL ДЛЯ ОБРАЩЕНИЙ ПО ПД]';
-const DATE     = '[ДАТА УТВЕРЖДЕНИЯ]';
+const OPERATOR = 'ИНДИВИДУАЛЬНЫЙ ПРЕДПРИНИМАТЕЛЬ ХАЙРУЛЛИН АМИР РАШИДОВИЧ';
+const INN      = '631702755352';
+const ADDRESS  = '443099, РОССИЯ, САМАРСКАЯ ОБЛ, Г САМАРА, УЛ ЧАПАЕВСКАЯ, Д 98, КВ 6';
+const EMAIL    = 'katranamir@gmail.com';
+const DATE     = '13.06.2026';
 
 function H2({ children }) {
   return <h2 className="mt-10 mb-3 font-display text-[1.25rem] font-bold text-ink">{children}</h2>;

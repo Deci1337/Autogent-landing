@@ -150,16 +150,6 @@ export default function AuditCTA() {
                 </li>
               ))}
             </ul>
-            <div className="mt-10 flex items-center gap-3">
-              <div className="flex -space-x-2">
-                {['ЕМ','АК','СТ','РН'].map((i) => (
-                  <div key={i} className="h-8 w-8 rounded-full bg-orange/25 ring-2 ring-ink grid place-items-center text-[10px] font-bold text-orange">{i}</div>
-                ))}
-              </div>
-              <p className="text-[13px] text-seashell/50">
-                <span className="font-semibold text-seashell/75">247+ компаний</span> уже прошли аудит
-              </p>
-            </div>
           </div>
 
           {/* форма */}
