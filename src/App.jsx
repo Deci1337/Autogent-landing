@@ -21,16 +21,13 @@ export default function App() {
       <Header />
       <main>
         <Hero />
-        {/* градиент-мост: перекрывает низ Hero, плавно переходит в seashell */}
+        {/* градиент-мост: идёт ПОСЛЕ hero (ниже сгиба), от чёрного к seashell */}
         <div aria-hidden="true" style={{
           height: '100px',
-          marginTop: '-100px',
-          position: 'relative',
-          zIndex: 2,
-          background: 'linear-gradient(to bottom, rgba(255,245,238,0) 0%, #FFF5EE 100%)',
+          background: 'linear-gradient(to bottom, #000000 0%, #FFF5EE 100%)',
           pointerEvents: 'none'
         }} />
-        <div style={{ background: '#FFF5EE', position: 'relative', zIndex: 2 }}>
+        <div style={{ background: '#FFF5EE' }}>
           <VideoSection />
           <CasesShowcase />
           <Capabilities />
