@@ -256,7 +256,11 @@ export default function AuditCTA() {
                               Записаться на аудит <Arrow />
                             </button>
                           </div>
-                          <p className="text-center text-[11.5px] text-ink/30">Бесплатно. Без спама и навязчивых звонков.</p>
+                          <p className="text-center text-[11px] text-ink/30 leading-snug">
+                            Бесплатно. Без спама и навязчивых звонков.<br />
+                            Нажимая кнопку, вы соглашаетесь с{' '}
+                            <a href="/privacy" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-ink/50 transition-colors">политикой обработки персональных данных</a>.
+                          </p>
                         </form>
                       </motion.div>
                     )}

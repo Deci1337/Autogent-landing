@@ -24,7 +24,9 @@ export default function Footer() {
         </div>
         <div className="mt-12 flex flex-col gap-2 border-t border-ink/[0.08] pt-6 text-[13px] text-ink/40 sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 Autogent. Все права защищены.</p>
-          <p>ИИ-агенты под ваш бизнес</p>
+          <a href="/privacy" className="hover:text-ink/60 transition-colors underline underline-offset-2">
+            Политика конфиденциальности и обработки ПД
+          </a>
         </div>
       </div>
     </footer>
