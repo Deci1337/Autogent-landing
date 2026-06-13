@@ -63,32 +63,47 @@ body {
 .floaty.f2 { animation-duration: 18s; animation-delay: -4s; }
 .floaty.f3 { animation-duration: 22s; animation-delay: -8s; }
 
-.glass {
-  position: relative;
-  overflow: hidden;
-  background: rgba(255, 252, 248, 0.06);
-  backdrop-filter: blur(52px) saturate(240%) brightness(1.06);
-  -webkit-backdrop-filter: blur(52px) saturate(240%) brightness(1.06);
-  box-shadow:
-    0 6px 40px rgba(0, 0, 0, 0.10),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.38),
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.80),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.12);
+/* ── liquid glass header ── */
+.liquid-glass {
   isolation: isolate;
 }
 
-.glass::before {
+/* фоновый размытый слой с дисторсией */
+.liquid-glass-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  overflow: hidden;
+  z-index: 0;
+  /* blur + дисторсия через SVG-фильтр */
+  backdrop-filter: blur(56px) saturate(260%) brightness(1.08);
+  -webkit-backdrop-filter: blur(56px) saturate(260%) brightness(1.08);
+  filter: url(#liquid-distort);
+  background: rgba(255, 252, 250, 0.08);
+}
+
+/* верхний бликовый слой: рефракция + граница */
+.liquid-glass::after {
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(
-    155deg,
-    rgba(255, 255, 255, 0.30) 0%,
-    rgba(255, 255, 255, 0.07) 38%,
-    rgba(255, 255, 255, 0.00) 68%
-  );
+  border-radius: 9999px;
+  z-index: 1;
   pointer-events: none;
+  /* тонкая белая граница со светлым верхом — эффект стекла */
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.40),
+    inset 0 2px 0   rgba(255, 255, 255, 0.85),
+    inset 0 -1px 0  rgba(255, 255, 255, 0.10),
+    0 6px 40px rgba(0, 0, 0, 0.08);
+  /* световой блик — преломление сверху */
+  background: linear-gradient(
+    158deg,
+    rgba(255, 255, 255, 0.28) 0%,
+    rgba(255, 255, 255, 0.06) 35%,
+    rgba(255, 200, 160, 0.04) 65%,
+    rgba(255, 255, 255, 0.00) 100%
+  );
 }
 
 
