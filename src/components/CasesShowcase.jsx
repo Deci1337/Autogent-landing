@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { Reveal, Section, SectionHeader } from './shared';
+import TiltedCard from './TiltedCard';
 
 /* ── данные кейсов ─────────────────────────────────────────────── */
 const CASES = [
@@ -383,41 +384,45 @@ function CaseModal({ c, onClose }) {
 /* ── карточка кейса ──────────────────────────────────────────── */
 function CaseCard({ c, onClick }) {
   return (
-    <button
-      onClick={onClick}
-      className="group snap-start shrink-0 w-[288px] h-[300px] flex flex-col text-left rounded-[20px] bg-white/70 ring-1 ring-ink/[0.08] p-6 shadow-[0_2px_16px_rgba(10,10,10,.06)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_8px_32px_rgba(10,10,10,.10)] hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-orange/60"
+    <TiltedCard
+      containerWidth="330px"
+      containerHeight="355px"
+      imageWidth="330px"
+      imageHeight="355px"
+      scaleOnHover={1.04}
+      rotateAmplitude={9}
+      showTooltip={false}
     >
-      {/* ниша — главный визуальный якорь */}
-      <p className="font-display font-extrabold text-[1.35rem] leading-tight text-orange line-clamp-1">
-        {c.niche}
-      </p>
-
-      {/* результат */}
-      <p className="mt-2 text-[0.8rem] font-semibold text-ink/55 leading-snug line-clamp-2">
-        {c.result}
-      </p>
-
-      {/* заголовок */}
-      <h3 className="mt-3 font-display text-[0.9rem] font-semibold text-ink/75 leading-snug line-clamp-3 flex-1">
-        {c.title}
-      </h3>
-
-      <div className="flex flex-col gap-2 mt-auto pt-3 border-t border-ink/[0.07]">
-        <div className="flex flex-wrap gap-1.5">
-          {c.agents.map((a) => (
-            <span key={a} className="inline-flex items-center rounded-full bg-orange/[0.09] px-2.5 py-0.5 text-[11px] font-medium text-orange">
-              {a}
-            </span>
-          ))}
+      <button
+        onClick={onClick}
+        className="group w-full h-full flex flex-col text-left rounded-[20px] bg-white/70 ring-1 ring-ink/[0.08] p-6 shadow-[0_2px_16px_rgba(10,10,10,.06)] hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-orange/60"
+      >
+        <p className="font-display font-extrabold text-[1.35rem] leading-tight text-orange line-clamp-1">
+          {c.niche}
+        </p>
+        <p className="mt-2 text-[0.8rem] font-semibold text-ink/55 leading-snug line-clamp-2">
+          {c.result}
+        </p>
+        <h3 className="mt-3 font-display text-[0.9rem] font-semibold text-ink/75 leading-snug line-clamp-3 flex-1">
+          {c.title}
+        </h3>
+        <div className="flex flex-col gap-2 mt-auto pt-3 border-t border-ink/[0.07]">
+          <div className="flex flex-wrap gap-1.5">
+            {c.agents.map((a) => (
+              <span key={a} className="inline-flex items-center rounded-full bg-orange/[0.09] px-2.5 py-0.5 text-[11px] font-medium text-orange">
+                {a}
+              </span>
+            ))}
+          </div>
+          <div className="flex items-center gap-2 text-[13px] font-semibold text-orange group-hover:gap-3 transition-all duration-200">
+            Подробнее
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
         </div>
-        <div className="flex items-center gap-2 text-[13px] font-semibold text-orange group-hover:gap-3 transition-all duration-200">
-          Подробнее
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </div>
-      </div>
-    </button>
+      </button>
+    </TiltedCard>
   );
 }
 
@@ -446,7 +451,7 @@ export default function CasesShowcase() {
   const scroll = (dir) => {
     const el = scrollRef.current;
     if (!el) return;
-    el.scrollBy({ left: dir * 320, behavior: 'smooth' });
+    el.scrollBy({ left: dir * 355, behavior: 'smooth' });
   };
 
   return (
@@ -464,7 +469,7 @@ export default function CasesShowcase() {
           <button
             onClick={() => scroll(-1)}
             disabled={!canLeft}
-            className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 z-20 grid h-10 w-10 place-items-center rounded-full bg-white shadow-[0_2px_12px_rgba(10,10,10,.12)] ring-1 ring-ink/[0.07] text-ink/60 transition-all duration-200 hover:text-ink hover:shadow-[0_4px_20px_rgba(10,10,10,.16)] disabled:opacity-0 disabled:pointer-events-none focus:outline-none"
+            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 grid h-11 w-11 place-items-center rounded-full bg-white shadow-[0_2px_12px_rgba(10,10,10,.12)] ring-1 ring-ink/[0.07] text-ink/60 transition-all duration-200 hover:text-ink hover:shadow-[0_4px_20px_rgba(10,10,10,.16)] disabled:opacity-0 disabled:pointer-events-none focus:outline-none"
             aria-label="Прокрутить влево"
           >
             <ChevronIcon dir="left" />
@@ -474,7 +479,7 @@ export default function CasesShowcase() {
           <button
             onClick={() => scroll(1)}
             disabled={!canRight}
-            className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 z-20 grid h-10 w-10 place-items-center rounded-full bg-white shadow-[0_2px_12px_rgba(10,10,10,.12)] ring-1 ring-ink/[0.07] text-ink/60 transition-all duration-200 hover:text-ink hover:shadow-[0_4px_20px_rgba(10,10,10,.16)] disabled:opacity-0 disabled:pointer-events-none focus:outline-none"
+            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 grid h-11 w-11 place-items-center rounded-full bg-white shadow-[0_2px_12px_rgba(10,10,10,.12)] ring-1 ring-ink/[0.07] text-ink/60 transition-all duration-200 hover:text-ink hover:shadow-[0_4px_20px_rgba(10,10,10,.16)] disabled:opacity-0 disabled:pointer-events-none focus:outline-none"
             aria-label="Прокрутить вправо"
           >
             <ChevronIcon dir="right" />
@@ -482,11 +487,11 @@ export default function CasesShowcase() {
 
           <div
             ref={scrollRef}
-            className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 px-5 sm:px-8"
+            className="flex gap-5 overflow-x-auto snap-x snap-mandatory pb-6 pt-2 px-16 sm:px-20"
             style={{ scrollbarWidth: 'none' }}
           >
             {CASES.map((c, i) => (
-              <Reveal key={c.id} delay={Math.min(i, 4) * 60} className="shrink-0">
+              <Reveal key={c.id} delay={Math.min(i, 4) * 60} className="shrink-0 snap-start">
                 <CaseCard c={c} onClick={() => setActive(c)} />
               </Reveal>
             ))}
