@@ -17,18 +17,7 @@ export default function Header() {
   const dark = !solid;
 
   return (
-    <>
-      {/* SVG-фильтр для эффекта жидкого стекла */}
-      <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true">
-        <defs>
-          <filter id="liquid-distort" x="-20%" y="-20%" width="140%" height="140%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.018 0.022" numOctaves="3" seed="5" result="noise" />
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" xChannelSelector="R" yChannelSelector="G" />
-          </filter>
-        </defs>
-      </svg>
-
-      <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${solid ? 'py-3' : 'py-5'}`}>
+    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${solid ? 'py-3' : 'py-5'}`}>
         <div className="mx-auto w-full max-w-[1200px] px-5 sm:px-8">
           <div className={`relative flex items-center justify-between rounded-full px-5 sm:px-6 py-3 transition-all duration-500 ${solid ? 'liquid-glass' : ''}`}>
 
@@ -56,6 +45,5 @@ export default function Header() {
           </div>
         </div>
       </header>
-    </>
   );
 }

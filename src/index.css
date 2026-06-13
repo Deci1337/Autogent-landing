@@ -66,23 +66,23 @@ body {
 /* ── liquid glass header ── */
 .liquid-glass {
   isolation: isolate;
+  position: relative;
 }
 
-/* фоновый размытый слой с дисторсией */
+/* слой 1: чистый backdrop-filter — никаких других filter, иначе блюр отключается */
 .liquid-glass-bg {
   position: absolute;
   inset: 0;
   border-radius: 9999px;
-  overflow: hidden;
   z-index: 0;
-  /* blur + дисторсия через SVG-фильтр */
-  backdrop-filter: blur(56px) saturate(260%) brightness(1.08);
-  -webkit-backdrop-filter: blur(56px) saturate(260%) brightness(1.08);
-  filter: url(#liquid-distort);
-  background: rgba(255, 252, 250, 0.08);
+  pointer-events: none;
+  backdrop-filter: blur(64px) saturate(300%) brightness(1.06) contrast(1.04);
+  -webkit-backdrop-filter: blur(64px) saturate(300%) brightness(1.06) contrast(1.04);
+  /* полупрозрачный тинт — виден даже без backdrop-filter */
+  background: rgba(255, 248, 240, 0.18);
 }
 
-/* верхний бликовый слой: рефракция + граница */
+/* слой 2: блики, каустика, рамка — отдельный pseudo-element поверх */
 .liquid-glass::after {
   content: '';
   position: absolute;
@@ -90,20 +90,17 @@ body {
   border-radius: 9999px;
   z-index: 1;
   pointer-events: none;
-  /* тонкая белая граница со светлым верхом — эффект стекла */
+  /* радиальные блики: верхний белый + нижний тёплый (оранжевая каустика) */
+  background:
+    radial-gradient(ellipse 80% 55% at 30% -10%, rgba(255,255,255,0.60) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 40% at 75% 110%, rgba(234,138,8,0.13) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 85% 20%, rgba(255,255,255,0.20) 0%, transparent 55%);
+  /* граница: ярко-белый верх, слабый низ */
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.40),
-    inset 0 2px 0   rgba(255, 255, 255, 0.85),
-    inset 0 -1px 0  rgba(255, 255, 255, 0.10),
-    0 6px 40px rgba(0, 0, 0, 0.08);
-  /* световой блик — преломление сверху */
-  background: linear-gradient(
-    158deg,
-    rgba(255, 255, 255, 0.28) 0%,
-    rgba(255, 255, 255, 0.06) 35%,
-    rgba(255, 200, 160, 0.04) 65%,
-    rgba(255, 255, 255, 0.00) 100%
-  );
+    inset 0 0 0 1px rgba(255, 255, 255, 0.50),
+    inset 0 2.5px 0 rgba(255, 255, 255, 0.92),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.14),
+    0 8px 48px rgba(0, 0, 0, 0.09);
 }
 
 
