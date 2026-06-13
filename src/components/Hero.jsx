@@ -21,13 +21,13 @@ export default function Hero() {
         background: 'linear-gradient(to bottom, rgba(255,245,238,0) 0%, rgba(255,245,238,1) 100%)'
       }} />
 
-      <div className="relative z-10 mx-auto w-full max-w-[1100px] text-center">
-        <Reveal as="h1" delay={80} className="mx-auto mt-7 max-w-[20ch] font-display font-extrabold display-tight text-[clamp(2rem,5.6vw,4.7rem)] text-white text-balance leading-[1.08]">
+      <div className="relative z-10 mx-auto w-full max-w-[1100px] text-center mt-16 sm:mt-20">
+        <Reveal as="h1" delay={80} className="mx-auto mt-7 max-w-[20ch] font-display font-extrabold display-tight text-[clamp(2.3rem,6.4vw,5.4rem)] text-white text-balance leading-[1.08]">
           Внедрите ИИ в свой бизнес{' '}
           <span className="text-orange">раньше конкурентов</span>
         </Reveal>
 
-        <Reveal delay={180} className="mx-auto mt-7 max-w-[50ch] text-[clamp(1rem,1.8vw,1.2rem)] leading-relaxed text-white/55">
+        <Reveal delay={180} className="mx-auto mt-7 max-w-[50ch] text-[clamp(1.05rem,2vw,1.3rem)] leading-relaxed text-white/55">
           Первые компании уже сократили ФОТ на 200–900 тыс./мес и утроили скорость работы команды. Мы помогаем войти в эту группу.
         </Reveal>
 
