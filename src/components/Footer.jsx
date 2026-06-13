@@ -18,8 +18,8 @@ export default function Footer() {
           </div>
           <div className="font-mono text-[13px] leading-relaxed text-ink/45">
             <p>Autogent</p>
-            <p>ИНН: 000000000000</p>
-            <p>г. [Город]</p>
+            <p>ИНН: 631702755352</p>
+            <p>г. Самара</p>
           </div>
         </div>
         <div className="mt-12 flex flex-col gap-2 border-t border-ink/[0.08] pt-6 text-[13px] text-ink/40 sm:flex-row sm:items-center sm:justify-between">
