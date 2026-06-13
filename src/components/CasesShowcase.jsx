@@ -395,26 +395,26 @@ function CaseCard({ c, onClick }) {
     >
       <button
         onClick={onClick}
-        className="group w-full h-full flex flex-col text-left rounded-[20px] bg-white/70 ring-1 ring-ink/[0.08] p-6 shadow-[0_2px_16px_rgba(10,10,10,.06)] hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-orange/60"
+        className="group w-full h-full flex flex-col text-left rounded-[20px] bg-white/70 ring-1 ring-ink/[0.08] p-7 shadow-[0_2px_16px_rgba(10,10,10,.06)] hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-orange/60"
       >
-        <p className="font-display font-extrabold text-[1.35rem] leading-tight text-orange line-clamp-1">
+        <p className="font-display font-extrabold text-[1.6rem] leading-tight text-orange line-clamp-1">
           {c.niche}
         </p>
-        <p className="mt-2 text-[0.8rem] font-semibold text-ink/55 leading-snug line-clamp-2">
+        <p className="mt-2.5 text-[0.92rem] font-semibold text-ink/55 leading-snug line-clamp-2">
           {c.result}
         </p>
-        <h3 className="mt-3 font-display text-[0.9rem] font-semibold text-ink/75 leading-snug line-clamp-3 flex-1">
+        <h3 className="mt-4 font-display text-[1.05rem] font-semibold text-ink/80 leading-snug line-clamp-5 flex-1">
           {c.title}
         </h3>
-        <div className="flex flex-col gap-2 mt-auto pt-3 border-t border-ink/[0.07]">
+        <div className="flex flex-col gap-2.5 mt-auto pt-4 border-t border-ink/[0.07]">
           <div className="flex flex-wrap gap-1.5">
             {c.agents.map((a) => (
-              <span key={a} className="inline-flex items-center rounded-full bg-orange/[0.09] px-2.5 py-0.5 text-[11px] font-medium text-orange">
+              <span key={a} className="inline-flex items-center rounded-full bg-orange/[0.09] px-3 py-1 text-[12px] font-medium text-orange">
                 {a}
               </span>
             ))}
           </div>
-          <div className="flex items-center gap-2 text-[13px] font-semibold text-orange group-hover:gap-3 transition-all duration-200">
+          <div className="flex items-center gap-2 text-[14px] font-semibold text-orange group-hover:gap-3 transition-all duration-200">
             Подробнее
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
