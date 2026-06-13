@@ -24,7 +24,7 @@ const TOTAL = 3;
 
 function Progress({ step }) {
   return (
-    <div className="mb-7 flex items-center gap-2">
+    <div className="mb-6 flex items-center gap-2">
       {Array.from({ length: TOTAL }).map((_, i) => (
         <div key={i} className="relative h-1 flex-1 rounded-full bg-ink/10 overflow-hidden">
           <motion.div
@@ -45,15 +45,15 @@ function SelectChip({ label, selected, multi, onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className={`inline-flex items-center gap-2 rounded-full border px-4 py-2.5 text-[0.88rem] font-medium transition-all duration-200
+      className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-[0.85rem] font-medium transition-all duration-200
         ${selected
           ? 'border-orange bg-orange text-white'
-          : 'border-ink/12 bg-white/70 text-ink/75 hover:border-orange/40 hover:bg-orange/5'
+          : 'border-ink/12 bg-white/70 text-ink/70 hover:border-orange/40 hover:bg-orange/5'
         }`}
     >
       {multi && (
-        <span className={`h-4 w-4 shrink-0 rounded grid place-items-center border transition-colors ${selected ? 'border-white/60 bg-white/20' : 'border-ink/20'}`}>
-          {selected && <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2L7.5 2" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+        <span className={`h-3.5 w-3.5 shrink-0 rounded grid place-items-center border transition-colors ${selected ? 'border-white/60 bg-white/20' : 'border-ink/25'}`}>
+          {selected && <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 4l1.8 1.8L6.5 2" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>}
         </span>
       )}
       {label}
@@ -61,34 +61,41 @@ function SelectChip({ label, selected, multi, onClick }) {
   );
 }
 
-function Field({ label, name, value, onChange, error, placeholder }) {
+function Field({ label, name, value, onChange, error, placeholder, required }) {
   return (
-    <label className="block">
-      <span className="mb-2 block text-[13.5px] font-semibold text-ink/70">{label}</span>
+    <div>
+      <label className="mb-1.5 flex items-center gap-1 text-[13px] font-semibold text-ink/65">
+        {label}
+        {required && <span className="text-orange">*</span>}
+      </label>
       <input
         name={name}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`w-full rounded-xl2 bg-seashell px-5 py-4 text-[1rem] text-ink ring-1 transition-all duration-200 placeholder:text-ink/35 focus:outline-none focus:ring-2 ${error ? 'ring-orange2/70 focus:ring-orange2' : 'ring-ink/10 focus:ring-orange'}`}
+        className={`w-full rounded-xl bg-white/80 px-4 py-3 text-[0.95rem] text-ink ring-1 transition-all duration-200 placeholder:text-ink/30 focus:outline-none focus:ring-2 ${error ? 'ring-orange2/60 focus:ring-orange2' : 'ring-ink/10 focus:ring-orange'}`}
       />
-      {error && <span className="mt-1.5 block text-[12px] font-medium text-orange2">{error}</span>}
-    </label>
+      {error && <p className="mt-1 text-[11.5px] font-medium text-orange2">{error}</p>}
+    </div>
   );
 }
 
 const slideVariants = {
-  enter: (dir) => ({ opacity: 0, x: dir * 36 }),
+  enter: (dir) => ({ opacity: 0, x: dir * 32 }),
   center: { opacity: 1, x: 0 },
-  exit:  (dir) => ({ opacity: 0, x: dir * -36 }),
+  exit:  (dir) => ({ opacity: 0, x: dir * -32 }),
 };
 
+const StepLabel = ({ text }) => (
+  <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-widest text-ink/30">{text}</p>
+);
+
 export default function AuditCTA() {
-  const [step, setStep] = useState(1);
-  const [dir, setDir]   = useState(1);
+  const [step, setStep]     = useState(1);
+  const [dir, setDir]       = useState(1);
   const [niche, setNiche]   = useState('');
   const [tasks, setTasks]   = useState([]);
-  const [form, setForm]     = useState({ name: '', contact: '' });
+  const [form, setForm]     = useState({ name: '', phone: '', company: '' });
   const [errors, setErrors] = useState({});
   const [sent, setSent]     = useState(false);
 
@@ -106,9 +113,9 @@ export default function AuditCTA() {
   const validate = () => {
     const er = {};
     if (!form.name.trim()) er.name = 'Укажите имя';
-    const c = form.contact.trim();
-    if (!c) er.contact = 'Telegram или телефон';
-    else if (!/^(@[\w\d_.]{3,}|[+()\d\s-]{7,})$/.test(c)) er.contact = 'Проверьте формат';
+    const p = form.phone.trim();
+    if (!p) er.phone = 'Укажите номер телефона';
+    else if (!/^[+()\d\s-]{7,}$/.test(p)) er.phone = 'Проверьте формат номера';
     return er;
   };
 
@@ -156,96 +163,100 @@ export default function AuditCTA() {
           </div>
 
           {/* форма */}
-          <div className="rounded-xl3 bg-seashell p-6 sm:p-8 overflow-hidden">
+          <div className="rounded-xl3 bg-seashell p-6 sm:p-7">
             {sent ? (
               <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }}
                 className="flex min-h-[360px] flex-col items-center justify-center text-center">
-                <div className="grid h-16 w-16 place-items-center rounded-full bg-orange/10">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <div className="grid h-14 w-14 place-items-center rounded-full bg-orange/10">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
                     <path d="M5 13l4 4L19 7" stroke="#E85D04" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
-                <h3 className="mt-5 font-display text-[1.55rem] font-extrabold text-ink">Заявка принята!</h3>
-                <p className="mt-3 max-w-[260px] text-[0.97rem] leading-relaxed text-ink/60">
+                <h3 className="mt-5 font-display text-[1.5rem] font-extrabold text-ink">Заявка принята!</h3>
+                <p className="mt-3 max-w-[260px] text-[0.95rem] leading-relaxed text-ink/60">
                   Свяжемся в течение рабочего дня и согласуем время аудита.
                 </p>
-                <div className="mt-5 rounded-xl2 bg-orange/[0.07] px-5 py-3 text-[13px] text-ink/55">
-                  Ждите в <span className="font-semibold text-ink/75">{form.contact}</span>
+                <div className="mt-4 rounded-xl bg-orange/[0.07] px-4 py-2.5 text-[13px] text-ink/55">
+                  Позвоним на <span className="font-semibold text-ink/75">{form.phone}</span>
                 </div>
               </motion.div>
             ) : (
               <>
                 <Progress step={step} />
-                <div className="relative overflow-hidden" style={{ minHeight: 340 }}>
+
+                {/* Контейнер без абсолютного позиционирования — высота по контенту */}
+                <div className="overflow-hidden">
                   <AnimatePresence mode="wait" custom={dir} initial={false}>
 
+                    {/* ШАГ 1 */}
                     {step === 1 && (
                       <motion.div key="s1" custom={dir} variants={slideVariants}
                         initial="enter" animate="center" exit="exit"
-                        transition={{ duration: 0.22, ease: 'easeInOut' }}
-                        className="absolute inset-0">
-                        <p className="text-[11px] font-semibold uppercase tracking-widest text-ink/35 mb-2">Шаг 1 — тип бизнеса</p>
-                        <h3 className="font-display text-[1.25rem] font-bold text-ink">Какой у вас бизнес?</h3>
+                        transition={{ duration: 0.2, ease: 'easeInOut' }}>
+                        <StepLabel text="Шаг 1 из 3 — тип бизнеса" />
+                        <h3 className="font-display text-[1.2rem] font-bold text-ink">Какой у вас бизнес?</h3>
                         <div className="mt-4 flex flex-wrap gap-2">
                           {NICHES.map((n) => (
                             <SelectChip key={n} label={n} selected={niche === n} onClick={() => setNiche(n)} />
                           ))}
                         </div>
                         <button type="button" disabled={!niche} onClick={() => go(2)}
-                          className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-orange px-7 py-3.5 text-[0.95rem] font-semibold text-seashell shadow-glow transition-all hover:bg-orange2 disabled:opacity-35 disabled:cursor-not-allowed">
+                          className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-orange px-6 py-3.5 text-[0.95rem] font-semibold text-seashell shadow-glow transition-all hover:bg-orange2 disabled:opacity-30 disabled:cursor-not-allowed">
                           Продолжить <Arrow />
                         </button>
                       </motion.div>
                     )}
 
+                    {/* ШАГ 2 */}
                     {step === 2 && (
                       <motion.div key="s2" custom={dir} variants={slideVariants}
                         initial="enter" animate="center" exit="exit"
-                        transition={{ duration: 0.22, ease: 'easeInOut' }}
-                        className="absolute inset-0">
-                        <p className="text-[11px] font-semibold uppercase tracking-widest text-ink/35 mb-2">Шаг 2 — задачи</p>
-                        <h3 className="font-display text-[1.25rem] font-bold text-ink">Что хотите автоматизировать?</h3>
-                        <p className="text-[12.5px] text-ink/40 mt-0.5">Можно выбрать несколько</p>
+                        transition={{ duration: 0.2, ease: 'easeInOut' }}>
+                        <StepLabel text="Шаг 2 из 3 — задачи" />
+                        <h3 className="font-display text-[1.2rem] font-bold text-ink">Что хотите автоматизировать?</h3>
+                        <p className="mt-0.5 text-[12px] text-ink/40">Можно выбрать несколько</p>
                         <div className="mt-4 flex flex-wrap gap-2">
                           {TASKS.map((t) => (
                             <SelectChip key={t} label={t} selected={tasks.includes(t)} multi onClick={() => toggleTask(t)} />
                           ))}
                         </div>
-                        <div className="mt-7 flex gap-3">
+                        <div className="mt-6 grid grid-cols-[auto_1fr] gap-3">
                           <button type="button" onClick={() => go(1)}
-                            className="rounded-full px-4 py-3.5 text-[0.9rem] font-semibold text-ink/45 hover:text-ink transition-colors">
+                            className="rounded-full border border-ink/10 bg-white/60 px-5 py-3.5 text-[0.9rem] font-semibold text-ink/50 hover:text-ink hover:border-ink/20 transition-all">
                             ← Назад
                           </button>
                           <button type="button" disabled={!tasks.length} onClick={() => go(3)}
-                            className="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-orange px-7 py-3.5 text-[0.95rem] font-semibold text-seashell shadow-glow transition-all hover:bg-orange2 disabled:opacity-35 disabled:cursor-not-allowed">
+                            className="inline-flex items-center justify-center gap-2 rounded-full bg-orange px-6 py-3.5 text-[0.95rem] font-semibold text-seashell shadow-glow transition-all hover:bg-orange2 disabled:opacity-30 disabled:cursor-not-allowed">
                             Продолжить <Arrow />
                           </button>
                         </div>
                       </motion.div>
                     )}
 
+                    {/* ШАГ 3 */}
                     {step === 3 && (
                       <motion.div key="s3" custom={dir} variants={slideVariants}
                         initial="enter" animate="center" exit="exit"
-                        transition={{ duration: 0.22, ease: 'easeInOut' }}
-                        className="absolute inset-0">
-                        <p className="text-[11px] font-semibold uppercase tracking-widest text-ink/35 mb-2">Шаг 3 — контакт</p>
-                        <h3 className="font-display text-[1.25rem] font-bold text-ink">Как с вами связаться?</h3>
-                        <p className="text-[12.5px] text-ink/40 mt-0.5">Только для согласования времени звонка</p>
-                        <form onSubmit={onSubmit} noValidate className="mt-5 space-y-4">
-                          <Field label="Ваше имя" name="name" value={form.name} onChange={onChange} error={errors.name} placeholder="Как к вам обращаться" />
-                          <Field label="Telegram или телефон" name="contact" value={form.contact} onChange={onChange} error={errors.contact} placeholder="@username или +7 900 ···" />
-                          <div className="flex gap-3 pt-1">
+                        transition={{ duration: 0.2, ease: 'easeInOut' }}>
+                        <StepLabel text="Шаг 3 из 3 — контакт" />
+                        <h3 className="font-display text-[1.2rem] font-bold text-ink">Как с вами связаться?</h3>
+                        <p className="mt-0.5 text-[12px] text-ink/40">Для согласования времени звонка</p>
+                        <form onSubmit={onSubmit} noValidate className="mt-4 flex flex-col gap-3">
+                          <Field label="Ваше имя" name="name" value={form.name} onChange={onChange} error={errors.name} placeholder="Как к вам обращаться" required />
+                          <Field label="Номер телефона" name="phone" value={form.phone} onChange={onChange} error={errors.phone} placeholder="+7 900 000 00 00" required />
+                          <Field label="Название компании" name="company" value={form.company} onChange={onChange} placeholder="Необязательно" />
+                          <p className="text-[11px] text-ink/30">* — обязательные поля</p>
+                          <div className="grid grid-cols-[auto_1fr] gap-3 pt-1">
                             <button type="button" onClick={() => go(2)}
-                              className="rounded-full px-4 py-3.5 text-[0.9rem] font-semibold text-ink/45 hover:text-ink transition-colors">
+                              className="rounded-full border border-ink/10 bg-white/60 px-5 py-3.5 text-[0.9rem] font-semibold text-ink/50 hover:text-ink hover:border-ink/20 transition-all">
                               ← Назад
                             </button>
                             <button type="submit"
-                              className="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-orange px-7 py-3.5 text-[0.95rem] font-semibold text-seashell shadow-glow transition-all hover:bg-orange2">
+                              className="inline-flex items-center justify-center gap-2 rounded-full bg-orange px-6 py-3.5 text-[0.95rem] font-semibold text-seashell shadow-glow transition-all hover:bg-orange2">
                               Записаться на аудит <Arrow />
                             </button>
                           </div>
-                          <p className="text-center text-[12px] text-ink/35">Бесплатно. Без спама и навязчивых звонков.</p>
+                          <p className="text-center text-[11.5px] text-ink/30">Бесплатно. Без спама и навязчивых звонков.</p>
                         </form>
                       </motion.div>
                     )}
