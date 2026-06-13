@@ -3,7 +3,7 @@ import Beams from './Beams';
 
 export default function Hero() {
   return (
-    <section id="top" className="relative flex flex-col justify-center px-5 pt-24 pb-48 sm:px-8 sm:pt-28 sm:pb-56" style={{ background: '#000000', zIndex: 1, minHeight: '115vh' }}>
+    <section id="top" className="relative flex flex-col justify-center px-5 pt-20 pb-32 sm:px-8 sm:pt-28 sm:pb-56" style={{ background: '#000000', zIndex: 1, minHeight: '100svh' }}>
       <div className="absolute inset-0 z-0" aria-hidden="true">
         <Beams
           beamWidth={2.2}
@@ -17,7 +17,7 @@ export default function Hero() {
         />
       </div>
       <div className="pointer-events-none absolute bottom-0 inset-x-0 z-[1]" style={{
-        height: '120px',
+        height: '80px',
         background: 'linear-gradient(to bottom, rgba(255,245,238,0) 0%, rgba(255,245,238,1) 100%)'
       }} />
 

@@ -30,7 +30,10 @@ export default function Header() {
             <a href="#how" className={`transition-colors ${dark ? 'hover:text-white' : 'hover:text-ink'}`}>Как это работает</a>
             <a href="#faq" className={`transition-colors ${dark ? 'hover:text-white' : 'hover:text-ink'}`}>Вопросы</a>
           </nav>
-          <Pill href="#audit" variant="primary" className="!px-5 !py-3 !text-[14px]">Разобрать мой бизнес бесплатно</Pill>
+          <Pill href="#audit" variant="primary" className="!px-4 !py-2.5 !text-[13px] sm:!px-5 sm:!py-3 sm:!text-[14px]">
+            <span className="sm:hidden">Получить разбор</span>
+            <span className="hidden sm:inline">Разобрать мой бизнес бесплатно</span>
+          </Pill>
         </div>
       </div>
     </header>
