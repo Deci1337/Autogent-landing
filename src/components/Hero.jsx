@@ -3,7 +3,11 @@ import Beams from './Beams';
 
 export default function Hero() {
   return (
-    <section id="top" className="relative flex flex-col justify-center px-5 pt-20 pb-16 sm:px-8 sm:pt-28 sm:pb-20" style={{ background: '#000000', zIndex: 1, minHeight: '100svh' }}>
+    <section id="top" className="relative flex flex-col justify-center px-5 pt-20 sm:px-8 sm:pt-28" style={{ background: '#000000', minHeight: 'calc(100svh + 120px)' }}>
+      <div className="pointer-events-none absolute bottom-0 inset-x-0 z-[1]" style={{
+        height: '120px',
+        background: 'linear-gradient(to bottom, rgba(255,245,238,0) 0%, #FFF5EE 100%)'
+      }} />
       <div className="absolute inset-0 z-0" aria-hidden="true">
         <Beams
           beamWidth={2.2}
@@ -17,7 +21,7 @@ export default function Hero() {
         />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-[1100px] text-center mt-16 sm:mt-20">
+      <div className="relative z-10 mx-auto w-full max-w-[1100px] text-center">
         <Reveal as="h1" delay={80} className="mx-auto mt-7 font-display font-extrabold text-[clamp(2.3rem,6.4vw,5.4rem)] text-white leading-[1.15]" style={{ letterSpacing: '-0.01em' }}>
           Внедрите ИИ<br />в свой бизнес<br /><span className="text-orange">раньше конкурентов</span>
         </Reveal>
