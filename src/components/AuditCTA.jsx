@@ -73,7 +73,7 @@ function Field({ label, name, value, onChange, error, placeholder, required }) {
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`w-full rounded-xl bg-white/80 px-4 py-3 text-[0.95rem] text-ink ring-1 transition-all duration-200 placeholder:text-ink/30 focus:outline-none focus:ring-2 ${error ? 'ring-orange2/60 focus:ring-orange2' : 'ring-ink/10 focus:ring-orange'}`}
+        className={`w-full rounded-xl bg-white px-4 py-3 text-[0.95rem] text-ink border transition-all duration-200 placeholder:text-ink/35 focus:outline-none focus:ring-2 focus:ring-offset-0 ${error ? 'border-orange2/60 focus:ring-orange2/40 focus:border-orange2' : 'border-ink/20 focus:ring-orange/30 focus:border-orange'}`}
       />
       {error && <p className="mt-1 text-[11.5px] font-medium text-orange2">{error}</p>}
     </div>
@@ -244,7 +244,7 @@ export default function AuditCTA() {
                         <form onSubmit={onSubmit} noValidate className="mt-4 flex flex-col gap-3">
                           <Field label="Ваше имя" name="name" value={form.name} onChange={onChange} error={errors.name} placeholder="Как к вам обращаться" required />
                           <Field label="Номер телефона" name="phone" value={form.phone} onChange={onChange} error={errors.phone} placeholder="+7 900 000 00 00" required />
-                          <Field label="Название компании" name="company" value={form.company} onChange={onChange} placeholder="Необязательно" />
+                          <Field label="Название компании" name="company" value={form.company} onChange={onChange} placeholder="или оставьте пустым" />
                           <p className="text-[11px] text-ink/30">* — обязательные поля</p>
                           <div className="grid grid-cols-[auto_1fr] gap-3 pt-1">
                             <button type="button" onClick={() => go(2)}
