@@ -20,7 +20,7 @@ export default function VideoSection() {
 
         {/* видео */}
         <Reveal delay={80}>
-          <div className="relative w-full rounded-xl3 overflow-hidden bg-ink aspect-video shadow-soft ring-1 ring-ink/10">
+          <div className="relative w-full rounded-xl3 overflow-hidden aspect-video ring-1 ring-ink/[0.07]" style={{ background: '#FFF5EE' }}>
             {VIDEO_SRC ? (
               <iframe
                 src={VIDEO_SRC}
@@ -30,14 +30,13 @@ export default function VideoSection() {
                 className="absolute inset-0 w-full h-full"
               />
             ) : (
-              /* плейсхолдер */
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-ink via-ink to-[#1a1a1a]">
-                <div className="h-16 w-16 rounded-full bg-orange/20 ring-2 ring-orange/40 grid place-items-center">
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-[#fff3e8] to-[#fde8cc]">
+                <div className="h-16 w-16 rounded-full bg-orange/15 ring-2 ring-orange/30 grid place-items-center">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <polygon points="5,3 19,12 5,21" fill="#FF6A00" />
                   </svg>
                 </div>
-                <p className="text-white/40 text-[0.875rem] font-medium tracking-wide">Видео скоро</p>
+                <p className="text-ink/35 text-[0.875rem] font-medium tracking-wide">Видео скоро</p>
               </div>
             )}
           </div>
