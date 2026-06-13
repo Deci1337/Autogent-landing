@@ -22,13 +22,12 @@ export default function Hero() {
       }} />
 
       <div className="relative z-10 mx-auto w-full max-w-[1100px] text-center mt-16 sm:mt-20">
-        <Reveal as="h1" delay={80} className="mx-auto mt-7 max-w-[20ch] font-display font-extrabold display-tight text-[clamp(2.3rem,6.4vw,5.4rem)] text-white text-balance leading-[1.08]">
-          Внедрите ИИ в свой бизнес{' '}
-          <span className="text-orange">раньше конкурентов</span>
+        <Reveal as="h1" delay={80} className="mx-auto mt-7 font-display font-extrabold display-tight text-[clamp(2.3rem,6.4vw,5.4rem)] text-white leading-[1.08]">
+          Внедрите ИИ<br />в свой бизнес<br /><span className="text-orange">раньше конкурентов</span>
         </Reveal>
 
-        <Reveal delay={180} className="mx-auto mt-7 max-w-[50ch] text-[clamp(1.05rem,2vw,1.3rem)] leading-relaxed text-white/55">
-          Первые компании уже сократили ФОТ на 200–900 тыс./мес и утроили скорость работы команды. Мы помогаем войти в эту группу.
+        <Reveal delay={180} className="mx-auto mt-7 text-[clamp(1.05rem,2vw,1.3rem)] leading-relaxed text-white/55">
+          Первые компании уже сократили ФОТ на 200–900 тыс./мес<br />и утроили скорость работы команды.<br />Мы помогаем войти в эту группу.
         </Reveal>
 
         <Reveal delay={260} className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row sm:mt-10">
