@@ -26,10 +26,10 @@ export default function Hero() {
           <span className="text-orange">Сократите ФОТ</span> и перестаньте<br />тушить пожары вручную
         </Reveal>
 
-        <Reveal delay={180} className="mx-auto mt-7 max-w-[600px] text-[clamp(1.05rem,2vw,1.2rem)] leading-relaxed text-white/55">
-          ИИ-агенты берут на себя рутину и экономят 200–900 тыс. ₽/мес.
-          <span className="block my-3 mx-auto w-8 border-t border-white/15" aria-hidden="true" />
-          За 25 минут получите список из 2-5 процессов в вашем бизнесе,<br />которые можно автоматизировать ИИ-агентами, и расчёт экономии.
+        <Reveal delay={180} className="mx-auto mt-7 max-w-[580px] text-[clamp(1.05rem,2vw,1.2rem)] leading-relaxed text-white/55">
+          ИИ-агенты берут рутину на себя и экономят{' '}
+          <span className="text-orange font-semibold">200–900 тыс. ₽/мес</span>{' '}—
+          за 25 минут получите список 2–5 процессов в вашем бизнесе и расчёт экономии.
         </Reveal>
 
         <Reveal delay={260} className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row sm:mt-10">
