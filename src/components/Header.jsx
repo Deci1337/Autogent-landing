@@ -32,8 +32,8 @@ export default function Header() {
             <nav className={`relative z-10 hidden items-center gap-8 text-[14.5px] font-medium md:flex transition-colors duration-300 ${dark ? 'text-white/65' : 'text-ink/65'}`}>
               <a href="#pain" className={`transition-colors ${dark ? 'hover:text-white' : 'hover:text-ink'}`}>Зачем</a>
               <a href="#cases" className={`transition-colors ${dark ? 'hover:text-white' : 'hover:text-ink'}`}>Кейсы</a>
-              <a href="#stack" className={`transition-colors ${dark ? 'hover:text-white' : 'hover:text-ink'}`}>Интеграции</a>
               <a href="#how" className={`transition-colors ${dark ? 'hover:text-white' : 'hover:text-ink'}`}>Как это работает</a>
+              <a href="#stack" className={`transition-colors ${dark ? 'hover:text-white' : 'hover:text-ink'}`}>Интеграции</a>
               <a href="#faq" className={`transition-colors ${dark ? 'hover:text-white' : 'hover:text-ink'}`}>Вопросы</a>
             </nav>
             <div className="relative z-10">
