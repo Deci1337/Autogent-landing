@@ -8,17 +8,17 @@ export default function VideoSection() {
     <Section id="story" className="py-20 md:py-28">
       <div className="mx-auto max-w-3xl">
 
-        <Reveal delay={0} className="mb-8 text-center">
-          <p className="text-[0.95rem] font-medium text-ink/40 tracking-wide uppercase mb-3">
-            Не знаете с чего начать?
-          </p>
-          <p className="font-display text-[clamp(1.2rem,2.5vw,1.55rem)] font-bold text-ink leading-snug text-balance">
+        <div className="mx-auto max-w-2xl text-center">
+          <Reveal className="flex items-center justify-center gap-3">
+            <span className="eyebrow text-[12px] text-ink/45">Не знаете с чего начать?</span>
+          </Reveal>
+          <Reveal as="h2" delay={60} className="mt-5 font-display font-extrabold display-tight text-[clamp(1.7rem,3.4vw,2.5rem)] text-ink text-balance">
             Специально для вас подготовили небольшое видео
-          </p>
-          <p className="mt-4 text-[1.05rem] leading-relaxed text-ink/60 max-w-[48ch] mx-auto">
-            Расскажем честно: как работает автоматизация, кому подходит и почему большинство внедрений окупаются за 2–3 месяца..
-          </p>
-        </Reveal>
+          </Reveal>
+          <Reveal delay={120} className="mt-5 text-[clamp(1.02rem,1.5vw,1.1rem)] leading-relaxed text-ink/60 max-w-xl mx-auto">
+            Расскажем честно: как работает автоматизация, кому подходит и почему большинство внедрений окупаются за 2–3 месяца.
+          </Reveal>
+        </div>
 
         {/* видео */}
         <Reveal delay={80}>
