@@ -31,7 +31,7 @@ export default function Hero() {
           <p className="mt-8 whitespace-nowrap">за 25 минут получите список 2–5 процессов в вашем бизнесе и расчёт экономии</p>
         </Reveal>
 
-        <Reveal delay={260} className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row sm:mt-10">
+        <Reveal delay={260} className="mt-16 flex flex-col items-center justify-center gap-3 sm:flex-row sm:mt-16">
           <Pill href="#audit" variant="primary" arrow className="w-full sm:w-auto">
             Получить разбор от команды
           </Pill>
