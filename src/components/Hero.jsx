@@ -26,12 +26,8 @@ export default function Hero() {
           <span className="text-orange">Сократите ФОТ</span> и перестаньте<br />тушить пожары вручную
         </Reveal>
 
-        <Reveal delay={180} className="mx-auto mt-7 text-[clamp(1.05rem,2vw,1.2rem)] leading-relaxed text-white/55">
-          <p className="whitespace-nowrap">ИИ-агенты берут рутину на себя и экономят <span className="text-orange font-semibold">от 500 тыс. ₽/мес</span></p>
-        </Reveal>
-
         <Reveal delay={240} className="mt-16 text-[clamp(1.05rem,2vw,1.2rem)] text-white/55">
-          за 25 минут получите список 2–5 процессов в вашем бизнесе и расчёт экономии
+          за 25 минут получите список 2–5 процессов в вашем бизнесе и расчёт экономии от 500к/мес
         </Reveal>
 
         <Reveal delay={300} className="mt-5 flex justify-center">
