@@ -30,10 +30,11 @@ export default function Hero() {
           <p className="whitespace-nowrap">ИИ-агенты берут рутину на себя и экономят <span className="text-orange font-semibold">от 500 тыс. ₽/мес</span></p>
         </Reveal>
 
-        <Reveal delay={260} className="mt-16 flex flex-col items-center justify-center gap-3 sm:flex-row sm:mt-16">
-          <div className="mb-4 text-[clamp(1.05rem,2vw,1.2rem)] text-white/55 whitespace-nowrap">
-            за 25 минут получите список 2–5 процессов в вашем бизнесе и расчёт экономии
-          </div>
+        <Reveal delay={240} className="mt-16 text-[clamp(1.05rem,2vw,1.2rem)] text-white/55">
+          за 25 минут получите список 2–5 процессов в вашем бизнесе и расчёт экономии
+        </Reveal>
+
+        <Reveal delay={300} className="mt-5 flex justify-center">
           <Pill href="#audit" variant="primary" arrow className="w-full sm:w-auto">
             Получить разбор от команды
           </Pill>
