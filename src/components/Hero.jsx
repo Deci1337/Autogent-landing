@@ -22,12 +22,14 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-[1100px] text-center">
-        <Reveal as="h1" delay={80} className="mx-auto mt-7 font-display font-extrabold text-[clamp(2.3rem,6.4vw,5.4rem)] text-white leading-[1.15]" style={{ letterSpacing: '-0.01em' }}>
+        <Reveal as="h1" delay={80} className="mx-auto mt-7 font-display font-extrabold text-[clamp(2rem,4.8vw,4rem)] text-white leading-[1.15]" style={{ letterSpacing: '-0.01em' }}>
           <span className="text-orange">Сократите ФОТ</span> и перестаньте<br />тушить пожары вручную
         </Reveal>
 
-        <Reveal delay={180} className="mx-auto mt-7 text-[clamp(1.05rem,2vw,1.3rem)] leading-relaxed text-white/55">
-          ИИ-агенты берут на себя рутину 200–900 тыс. ₽/мес.<br />За 25 минут получите список из 3-5 процессов в вашем бизнесе,<br />которые можно автоматизировать ИИ-агентами, и расчёт экономии.
+        <Reveal delay={180} className="mx-auto mt-7 max-w-[600px] text-[clamp(1.05rem,2vw,1.2rem)] leading-relaxed text-white/55">
+          ИИ-агенты берут на себя рутину и экономят 200–900 тыс. ₽/мес.
+          <span className="block my-3 mx-auto w-8 border-t border-white/15" aria-hidden="true" />
+          За 25 минут получите список из 2-5 процессов в вашем бизнесе,<br />которые можно автоматизировать ИИ-агентами, и расчёт экономии.
         </Reveal>
 
         <Reveal delay={260} className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row sm:mt-10">
