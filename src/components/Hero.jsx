@@ -27,8 +27,8 @@ export default function Hero() {
         </Reveal>
 
         <Reveal delay={180} className="mx-auto mt-7 text-[clamp(1.05rem,2vw,1.2rem)] leading-relaxed text-white/55">
-          <p className="whitespace-nowrap">ИИ-агенты берут рутину на себя и экономят <span className="text-orange font-semibold">200–900 тыс. ₽/мес</span></p>
-          <p className="whitespace-nowrap">за 25 минут получите список 2–5 процессов в вашем бизнесе и расчёт экономии</p>
+          <p className="whitespace-nowrap">ИИ-агенты берут рутину на себя и экономят <span className="text-orange font-semibold">от 500 тыс. ₽/мес</span></p>
+          <p className="mt-4 whitespace-nowrap">за 25 минут получите список 2–5 процессов в вашем бизнесе и расчёт экономии</p>
         </Reveal>
 
         <Reveal delay={260} className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row sm:mt-10">
