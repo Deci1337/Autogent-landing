@@ -13,8 +13,10 @@ export default function VideoSection() {
             Не знаете с чего начать?
           </p>
           <p className="font-display text-[clamp(1.2rem,2.5vw,1.55rem)] font-bold text-ink leading-snug text-balance">
-            В этом видео разбираем суть внедрения ИИ на{' '}
-            <span className="text-orange">примерах реальных компаний</span>
+            Специально для вас подготовили небольшое видео
+          </p>
+          <p className="mt-4 text-[1.05rem] leading-relaxed text-ink/60 max-w-[48ch] mx-auto">
+            Расскажем честно: как работает автоматизация, кому подходит и почему большинство внедрений окупаются за 2–3 месяца..
           </p>
         </Reveal>
 
@@ -40,13 +42,6 @@ export default function VideoSection() {
               </div>
             )}
           </div>
-        </Reveal>
-
-        {/* текст под видео */}
-        <Reveal delay={100} className="mt-8 text-center">
-          <p className="text-[1.05rem] leading-relaxed text-ink/60 max-w-[48ch] mx-auto">
-            Расскажем честно: как работает автоматизация, кому подходит и почему большинство внедрений окупаются за 2–3 месяца.
-          </p>
         </Reveal>
 
         {/* CTA */}
