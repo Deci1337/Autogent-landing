@@ -17,9 +17,10 @@ export default function Footer() {
             </div>
           </div>
           <div className="font-mono text-[13px] leading-relaxed text-ink/45">
-            <p>Autogent</p>
+            <p className="text-ink/55">Реквизиты</p>
+            <p className="mt-2 max-w-xs">ИП Хайруллин Амир Рашидович</p>
             <p>ИНН: 631702755352</p>
-            <p>г. Самара</p>
+            <p>ОГРНИП: 326632700081632</p>
           </div>
         </div>
         <div className="mt-12 flex flex-col gap-2 border-t border-ink/[0.08] pt-6 text-[13px] text-ink/40 sm:flex-row sm:items-center sm:justify-between">
