@@ -9,10 +9,7 @@ export default function VideoSection() {
       <div className="mx-auto max-w-3xl">
 
         <div className="mx-auto max-w-2xl text-center">
-          <Reveal className="flex items-center justify-center gap-3">
-            <span className="eyebrow text-[12px] text-ink/45">Видео</span>
-          </Reveal>
-          <Reveal as="h2" delay={60} className="mt-5 font-display font-extrabold display-tight text-[clamp(2rem,4.2vw,3.2rem)] text-ink text-balance">
+          <Reveal as="h2" delay={0} className="font-display font-extrabold display-tight text-[clamp(2rem,4.2vw,3.2rem)] text-ink text-balance">
             Не знаете, <span className="text-orange">с чего начать</span>?
           </Reveal>
           <Reveal delay={120} className="mt-5 text-[clamp(1.05rem,1.5vw,1.2rem)] leading-relaxed text-ink/60 max-w-xl mx-auto">
