@@ -26,7 +26,7 @@ export default function Hero() {
           <span className="text-orange">Сократите ФОТ</span> и перестаньте<br />тушить пожары вручную
         </Reveal>
 
-        <Reveal delay={240} className="mt-16 text-[clamp(1.05rem,2vw,1.2rem)] text-white/55">
+        <Reveal delay={240} className="mt-28 text-[clamp(1.05rem,2vw,1.2rem)] text-white/55">
           за 25 минут получите список 2–5 процессов в вашем бизнесе и расчёт экономии от 500к/мес
         </Reveal>
 
@@ -37,7 +37,7 @@ export default function Hero() {
         </Reveal>
 
         <Reveal delay={320} className="mt-4 text-[12.5px] text-white/30 leading-snug">
-          Разбор ни к чему не обязывает: дадим конкретный план, даже если решите не работать с нами.
+          Разбор ни к чему не обязывает: дадим конкретный план, даже если решите не работать с нами
         </Reveal>
       </div>
     </section>
