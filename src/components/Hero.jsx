@@ -23,24 +23,21 @@ export default function Hero() {
 
       <div className="relative z-10 mx-auto w-full max-w-[1100px] text-center">
         <Reveal as="h1" delay={80} className="mx-auto mt-7 font-display font-extrabold text-[clamp(2.3rem,6.4vw,5.4rem)] text-white leading-[1.15]" style={{ letterSpacing: '-0.01em' }}>
-          Внедрите ИИ<br />в свой бизнес<br /><span className="text-orange">раньше конкурентов</span>
+          <span className="text-orange">Сократите ФОТ</span> и перестаньте<br />тушить пожары вручную
         </Reveal>
 
         <Reveal delay={180} className="mx-auto mt-7 text-[clamp(1.05rem,2vw,1.3rem)] leading-relaxed text-white/55">
-          Первые компании уже сократили ФОТ на 200–900 тыс./мес<br />и утроили скорость работы команды.<br />Мы помогаем войти в эту группу.
+          ИИ-агенты берут на себя рутину 200–900 тыс. ₽/мес.<br />За 25 минут получите список из 3-5 процессов в вашем бизнесе,<br />которые можно автоматизировать ИИ-агентами, и расчёт экономии.
         </Reveal>
 
         <Reveal delay={260} className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row sm:mt-10">
           <Pill href="#audit" variant="primary" arrow className="w-full sm:w-auto">
-            Получить разбор за 25 минут
-          </Pill>
-          <Pill href="#how" variant="link" className="!text-white/65 hover:!text-white">
-            Узнать, что автоматизировать первым →
+            Получить разбор от команды
           </Pill>
         </Reveal>
 
         <Reveal delay={320} className="mt-4 text-[12.5px] text-white/30 leading-snug">
-          Разбор ни к чему не обязывает: дадим бесплатные ИИ-инструменты и предложим наши услуги
+          Разбор ни к чему не обязывает: дадим конкретный план, даже если решите не работать с нами.
         </Reveal>
       </div>
     </section>
