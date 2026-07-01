@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { Section, SectionHeader } from './shared';
 
 const PAINS = [
@@ -39,30 +40,62 @@ const PAINS = [
   },
 ];
 
+const CARD_W = 380;
+const GAP = 20;
+
 export default function Pain() {
+  const scrollRef = useRef(null);
+
+  const scroll = (dir) => {
+    if (!scrollRef.current) return;
+    scrollRef.current.scrollBy({ left: dir * (CARD_W + GAP), behavior: 'smooth' });
+  };
+
   return (
     <Section id="pain" className="py-20 md:py-28">
       <SectionHeader
         kicker="Проверьте себя"
         title={<>Если узнали себя, значит, есть потенциал <span className="text-orange">увеличить прибыль</span> внедрив ИИ-агентов</>}
         intro={<>
-          <span className="block whitespace-nowrap">Шесть ситуаций, которые обходятся бизнесу минимум в 200 тыс. ₽ в месяц.</span>
+          <span className="block whitespace-nowrap">Шесть ситуаций, которые обходятся бизнесу минимум в сотни тысяч рублей в месяц.</span>
           <span className="block whitespace-nowrap">Если хотя бы две из них про ваш бизнес, аудит окупится за первую неделю.</span>
         </>}
       />
-      <div className="mt-14" style={{ overflowX: 'auto', overflowY: 'hidden', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-        <div className="flex gap-5 pb-2" style={{ width: 'max-content' }}>
-          {PAINS.map((p, i) => (
-            <div key={p.n} className="flex-shrink-0" style={{ width: 380 }}>
+
+      <div className="relative mt-14">
+        <button
+          onClick={() => scroll(-1)}
+          aria-label="Назад"
+          className="absolute -left-5 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full bg-white border border-ink/10 flex items-center justify-center shadow-sm hover:bg-orange hover:border-orange hover:text-white transition-colors"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </button>
+
+        <div
+          ref={scrollRef}
+          style={{ overflowX: 'auto', overflowY: 'hidden', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          <div className="flex gap-5" style={{ width: 'max-content' }}>
+            {PAINS.map((p) => (
+              <div key={p.n} className="flex-shrink-0" style={{ width: CARD_W }}>
                 <div className="flex flex-col p-8 gap-3 rounded-[20px] border border-ink/[0.08] bg-white" style={{ height: 300 }}>
-                <span className="font-mono text-[13px] text-orange">{p.n}</span>
-                <h3 className="font-display text-[1.2rem] font-bold text-ink leading-snug">{p.t}</h3>
-                <p className="text-[0.82rem] font-semibold text-orange leading-snug">{p.cost}</p>
-                <p className="mt-auto text-[0.95rem] leading-relaxed text-ink/60">{p.d}</p>
+                  <span className="font-mono text-[13px] text-orange">{p.n}</span>
+                  <h3 className="font-display text-[1.2rem] font-bold text-ink leading-snug">{p.t}</h3>
+                  <p className="text-[0.82rem] font-semibold text-orange leading-snug">{p.cost}</p>
+                  <p className="mt-auto text-[0.95rem] leading-relaxed text-ink/60">{p.d}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
+
+        <button
+          onClick={() => scroll(1)}
+          aria-label="Вперёд"
+          className="absolute -right-5 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full bg-white border border-ink/10 flex items-center justify-center shadow-sm hover:bg-orange hover:border-orange hover:text-white transition-colors"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </button>
       </div>
     </Section>
   );
