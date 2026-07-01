@@ -1,5 +1,4 @@
 import { Section, SectionHeader } from './shared';
-import BorderGlow from './BorderGlow';
 
 const PAINS = [
   {
@@ -55,22 +54,12 @@ export default function Pain() {
         <div className="flex gap-5 pb-2" style={{ width: 'max-content' }}>
           {PAINS.map((p, i) => (
             <div key={p.n} className="flex-shrink-0" style={{ width: 380 }}>
-              <BorderGlow
-                backgroundColor="#fffaf5"
-                glowColor="30 90 65"
-                colors={['#ea8a08', '#f5a83a', '#c45c00']}
-                borderRadius={20}
-                glowRadius={35}
-                glowIntensity={1.2}
-                coneSpread={22}
-              >
-                <div className="flex flex-col p-8 gap-3" style={{ height: 300 }}>
-                  <span className="font-mono text-[13px] text-orange">{p.n}</span>
-                  <h3 className="font-display text-[1.2rem] font-bold text-ink leading-snug">{p.t}</h3>
-                  <p className="text-[0.82rem] font-semibold text-orange leading-snug">{p.cost}</p>
-                  <p className="mt-auto text-[0.95rem] leading-relaxed text-ink/60">{p.d}</p>
-                </div>
-              </BorderGlow>
+                <div className="flex flex-col p-8 gap-3 rounded-[20px] border border-ink/[0.08] bg-white" style={{ height: 300 }}>
+                <span className="font-mono text-[13px] text-orange">{p.n}</span>
+                <h3 className="font-display text-[1.2rem] font-bold text-ink leading-snug">{p.t}</h3>
+                <p className="text-[0.82rem] font-semibold text-orange leading-snug">{p.cost}</p>
+                <p className="mt-auto text-[0.95rem] leading-relaxed text-ink/60">{p.d}</p>
+              </div>
             </div>
           ))}
         </div>
