@@ -51,27 +51,29 @@ export default function Pain() {
           <span className="block whitespace-nowrap">Если хотя бы две из них про ваш бизнес, аудит окупится за первую неделю.</span>
         </>}
       />
-      <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {PAINS.map((p, i) => (
-          <Reveal key={p.n} delay={i * 80} className="transition-all duration-500 hover:-translate-y-1">
-            <BorderGlow
-              backgroundColor="#fffaf5"
-              glowColor="30 90 65"
-              colors={['#ea8a08', '#f5a83a', '#c45c00']}
-              borderRadius={20}
-              glowRadius={35}
-              glowIntensity={1.2}
-              coneSpread={22}
-            >
-              <div className="flex flex-col p-8 gap-3 h-full">
-                <span className="font-mono text-[13px] text-orange">{p.n}</span>
-                <h3 className="font-display text-[1.2rem] font-bold text-ink leading-snug">{p.t}</h3>
-                <p className="text-[0.82rem] font-semibold text-orange leading-snug">{p.cost}</p>
-                <p className="mt-auto text-[0.95rem] leading-relaxed text-ink/60">{p.d}</p>
-              </div>
-            </BorderGlow>
-          </Reveal>
-        ))}
+      <div className="mt-14 -mx-5 sm:-mx-8 px-5 sm:px-8 overflow-x-auto">
+        <div className="flex gap-5" style={{ width: 'max-content' }}>
+          {PAINS.map((p, i) => (
+            <Reveal key={p.n} delay={i * 80} className="transition-all duration-500 hover:-translate-y-1 flex-shrink-0" style={{ width: 'calc((100vw - 2 * 20px - 2 * 5px) / 3)', minWidth: 280, maxWidth: 420 }}>
+              <BorderGlow
+                backgroundColor="#fffaf5"
+                glowColor="30 90 65"
+                colors={['#ea8a08', '#f5a83a', '#c45c00']}
+                borderRadius={20}
+                glowRadius={35}
+                glowIntensity={1.2}
+                coneSpread={22}
+              >
+                <div className="flex flex-col p-8 gap-3" style={{ height: 280 }}>
+                  <span className="font-mono text-[13px] text-orange">{p.n}</span>
+                  <h3 className="font-display text-[1.2rem] font-bold text-ink leading-snug">{p.t}</h3>
+                  <p className="text-[0.82rem] font-semibold text-orange leading-snug">{p.cost}</p>
+                  <p className="mt-auto text-[0.95rem] leading-relaxed text-ink/60">{p.d}</p>
+                </div>
+              </BorderGlow>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </Section>
   );
