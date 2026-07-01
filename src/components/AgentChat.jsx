@@ -15,7 +15,7 @@ const MOCK = {
   fit:      'Если в бизнесе есть повторяющиеся задачи — ответы на заявки, документооборот, поддержка сотрудников — агент это закроет. Работаем с бизнесом любого размера: от небольшого автосервиса до федеральных компаний.',
   security: 'Да. Знаем 152-ФЗ и соблюдаем его на каждом проекте. При необходимости разворачиваем агента в изолированном контуре — данные не покидают ваш периметр.',
   diff:     'Обычный бот отвечает по скрипту и ломается при нестандартном вопросе. Наш агент понимает контекст, интегрируется с вашими системами — CRM, склад, расписание — и обучается на ваших данных.',
-  fallback: 'Хороший вопрос. Сейчас я работаю в режиме демо — на сложные вопросы отвечаем лично. Запишитесь на разбор, и за 25 минут разберём вашу ситуацию подробно.',
+  fallback: 'Хороший вопрос — но на него лучше ответить лично, с учётом вашей ситуации. Запишитесь на бесплатный аудит: за 25 минут разберём именно ваш бизнес и дадим конкретные цифры.',
 };
 
 // TODO: заменить на реальный API-вызов
@@ -72,12 +72,23 @@ export default function AgentChat() {
 
   return (
     <Section id="ask" className="py-20 md:py-28">
-      <SectionHeader
-        index="07"
-        kicker="Спросите агента"
-        title={<>Остались вопросы? <span className="text-orange">Спросите прямо здесь</span></>}
-        intro="Задайте любой вопрос об ИИ-агентах, сроках, стоимости или безопасности данных."
-      />
+      <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <SectionHeader
+          index="07"
+          kicker="Остались вопросы?"
+          title={<>Тогда запишитесь на <span className="text-orange">бесплатный аудит</span></>}
+          intro="Простые вопросы об ИИ-агентах — задайте прямо здесь. На сложные ответим лично."
+        />
+        <a
+          href="#audit"
+          className="shrink-0 inline-flex items-center gap-2 rounded-full bg-orange px-7 py-3.5 text-[0.95rem] font-semibold text-white shadow-glow transition-all hover:bg-orange2 sm:mb-2"
+        >
+          Записаться
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </a>
+      </div>
 
       <Reveal delay={80} className="mt-10 mx-auto max-w-2xl">
         <div className="rounded-xl3 overflow-hidden ring-1 ring-ink/[0.08] shadow-softer bg-white/70">

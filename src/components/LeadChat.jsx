@@ -75,7 +75,7 @@ export default function LeadChat() {
   useEffect(() => {
     setMessages([{
       role: 'assistant',
-      content: 'Привет! Расскажите — чем занимается ваша компания и что продаёте? Чем подробнее, тем точнее будет анализ.'
+      content: 'Привет! Я задам несколько вопросов о вашем бизнесе — это нужно, чтобы аналитик заранее подготовил конкретные процессы и цифры экономии до звонка с вами. Так 25 минут аудита будут максимально полезны.\n\nДля начала: чем занимается ваша компания и что продаёте? Чем подробнее — тем точнее будет анализ.'
     }]);
   }, []);
 
@@ -159,10 +159,7 @@ export default function LeadChat() {
         <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-orange/10 ring-1 ring-orange/20">
           <span className="text-[10px] font-bold text-orange">AI</span>
         </div>
-        <div className="min-w-0">
-          <p className="text-[13px] font-semibold leading-tight text-ink">Autogent AI</p>
-          <p className="text-[11px] text-ink/35">Квалификация за 2 минуты</p>
-        </div>
+        <p className="text-[13px] font-semibold leading-tight text-ink">Autogent AI</p>
         <span className="ml-auto flex shrink-0 items-center gap-1 text-[11px] text-emerald-500">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
           онлайн
