@@ -7,7 +7,6 @@ import CasesShowcase from './components/CasesShowcase';
 import Capabilities from './components/Capabilities';
 import HowItWorks from './components/HowItWorks';
 import Integrations from './components/Integrations';
-import AgentChat from './components/AgentChat';
 import FaqSection from './components/FaqSection';
 import AuditCTA from './components/AuditCTA';
 import Footer from './components/Footer';
@@ -30,7 +29,6 @@ export default function App() {
           <Capabilities />
           <HowItWorks />
           <Integrations />
-          <AgentChat />
           <FaqSection />
           <AuditCTA />
         </div>
