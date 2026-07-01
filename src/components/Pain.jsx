@@ -1,4 +1,4 @@
-import { Reveal, Section, SectionHeader } from './shared';
+import { Section, SectionHeader } from './shared';
 import BorderGlow from './BorderGlow';
 
 const PAINS = [
@@ -51,10 +51,10 @@ export default function Pain() {
           <span className="block whitespace-nowrap">Если хотя бы две из них про ваш бизнес, аудит окупится за первую неделю.</span>
         </>}
       />
-      <div className="mt-14 overflow-x-auto py-4 -my-4">
+      <div className="mt-14 overflow-x-auto">
         <div className="flex gap-5" style={{ width: 'max-content' }}>
           {PAINS.map((p, i) => (
-            <Reveal key={p.n} delay={i * 80} className="flex-shrink-0 transition-all duration-500 hover:-translate-y-1" style={{ width: 380 }}>
+            <div key={p.n} className="flex-shrink-0" style={{ width: 380 }}>
               <BorderGlow
                 backgroundColor="#fffaf5"
                 glowColor="30 90 65"
@@ -71,7 +71,7 @@ export default function Pain() {
                   <p className="mt-auto text-[0.95rem] leading-relaxed text-ink/60">{p.d}</p>
                 </div>
               </BorderGlow>
-            </Reveal>
+            </div>
           ))}
         </div>
       </div>
