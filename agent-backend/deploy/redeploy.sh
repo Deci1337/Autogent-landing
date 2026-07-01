@@ -29,7 +29,7 @@ elif [[ "$ROLE" == "ai" ]]; then
     SERVICE="autogent-ai"
 
     echo "→ Обновляем ai-service..."
-    cp "$SRC/main.py" "$SRC/funnel.py" "$SRC/security.py" "$APP_DIR/"
+    cp "$SRC/main.py" "$SRC/funnel.py" "$SRC/security.py" "$SRC/telegram_notifier.py" "$APP_DIR/"
     systemctl restart "$SERVICE"
     echo "✓ AI-сервис обновлён"
 
