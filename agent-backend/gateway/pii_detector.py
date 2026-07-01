@@ -1,7 +1,6 @@
 """
 PII detection and redaction for Russian text.
-Detects: phone numbers, emails, Telegram handles, full names, company names.
-PII never leaves this server — only redacted text is forwarded to AI service.
+Strips: phones, emails, Telegram, company names, full names (FIO).
 """
 import re
 from dataclasses import dataclass, field
@@ -14,34 +13,34 @@ class PiiResult:
 
     @property
     def has_pii(self) -> bool:
-        return any(self.found.values())
+        return bool(self.found)
 
 
 _PATTERNS: list[tuple[str, re.Pattern]] = [
-    # Телефон: +7/8 (xxx) xxx-xx-xx и вариации
+    # Телефон: +7/8 (xxx) xxx-xx-xx, 10-11 цифр подряд
     ("phone", re.compile(
         r'(?:\+7|8)[\s\-\(]*\d{3}[\s\-\)]*\d{3}[\s\-]*\d{2}[\s\-]*\d{2}'
-        r'|\b\d{10,11}\b',
-        re.IGNORECASE,
+        r'|\b[78]\d{10}\b',
+        re.UNICODE,
     )),
     # Email
     ("email", re.compile(
-        r'\b[\w.+\-]+@[\w\-]+\.[a-z]{2,}\b',
-        re.IGNORECASE,
-    )),
-    # Telegram @username
-    ("telegram", re.compile(
-        r'(?<!\w)@[\w]{3,32}',
-    )),
-    # ООО / ИП / АО + название
-    ("company", re.compile(
-        r'(?:ООО|ОАО|ЗАО|ИП|АО|ПАО|НКО)\s+[«"]?[\w\s]{2,40}[»"]?',
+        r'\b[\w.+\-]{1,64}@[\w\-]{1,63}(?:\.[\w\-]{1,63})+\b',
         re.IGNORECASE | re.UNICODE,
     )),
-    # ФИО — три заглавных слова на кириллице подряд (Фамилия Имя Отчество)
-    # или два (Имя Фамилия)
+    # Telegram @username (3–32 символа)
+    ("telegram", re.compile(
+        r'(?<!\w)@[A-Za-z0-9_]{3,32}\b',
+    )),
+    # Юр. лица: ООО/ИП/АО/ПАО/ЗАО + название в кавычках или без
+    ("company", re.compile(
+        r'(?:ООО|ОАО|ЗАО|ИП|АО(?![\w])|ПАО|НКО)\s+(?:[«""][\w\s\-]{2,50}[»""]|[А-ЯЁA-Z][\w\s\-]{1,40})',
+        re.UNICODE,
+    )),
+    # ФИО: 2–3 идущих подряд слова с заглавной буквы кириллицей
+    # Исключаем одиночные слова и распространённые не-имена
     ("name", re.compile(
-        r'\b[А-ЯЁ][а-яё]{1,20}(?:\s+[А-ЯЁ][а-яё]{1,20}){1,2}\b',
+        r'\b[А-ЯЁ][а-яё]{1,20}\s+[А-ЯЁ][а-яё]{1,20}(?:\s+[А-ЯЁ][а-яё]{1,20})?\b',
         re.UNICODE,
     )),
 ]
@@ -54,6 +53,17 @@ _PLACEHOLDER = {
     "name":     "[ИМЯ]",
 }
 
+# Слова которые не являются именами (исключения для name-паттерна)
+_NAME_STOPWORDS = {
+    "Это", "Наша", "Наш", "Наши", "Мы", "Они", "Вы", "Ваш", "Ваша",
+    "Есть", "Нет", "Был", "Была", "Было", "Будет", "Стало",
+    "Хотим", "Можем", "Делаем", "Работаем", "Используем",
+}
+
+
+def _filter_name_matches(matches: list[str]) -> list[str]:
+    return [m for m in matches if not any(m.startswith(sw) for sw in _NAME_STOPWORDS)]
+
 
 def detect_and_redact(text: str) -> PiiResult:
     found: dict[str, list[str]] = {}
@@ -61,6 +71,8 @@ def detect_and_redact(text: str) -> PiiResult:
 
     for kind, pattern in _PATTERNS:
         matches = pattern.findall(clean)
+        if kind == "name":
+            matches = _filter_name_matches(matches)
         if matches:
             found[kind] = matches
             clean = pattern.sub(_PLACEHOLDER[kind], clean)
