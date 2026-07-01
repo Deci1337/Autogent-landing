@@ -1,0 +1,12 @@
+[project]
+name = "autogent-gateway"
+version = "1.0.0"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "httpx>=0.27",
+    "python-dotenv>=1.0",
+    "slowapi>=0.1.9",
+    "pydantic>=2.9",
+]
