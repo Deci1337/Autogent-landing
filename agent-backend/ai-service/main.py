@@ -1,6 +1,8 @@
 """
 AI Service — runs on 151.247.196.36
-ВАЖНО: ПДн сюда НЕ поступают. Принимает только обезличенные сообщения от Gateway.
+- Обезличенные сообщения от Gateway → OpenAI → ответ
+- /notify endpoint: получает квалифицированный лид от Gateway и шлёт в Telegram
+  (Telegram заблокирован в РФ, поэтому уведомления идут отсюда, не с gateway)
 """
 import os
 import time
@@ -22,6 +24,7 @@ from funnel import (
     extract_answers_from_history,
 )
 from security import sanitize, turns_exceeded, budget_exceeded, InputError
+from telegram_notifier import send_lead_card
 
 load_dotenv()
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -106,6 +109,12 @@ async def _rate(request: Request, exc: RateLimitExceeded):
 
 
 # ── Schemas ───────────────────────────────────────────────────────────────────
+class NotifyRequest(BaseModel):
+    session_id: str
+    answers: dict
+    pii: dict
+
+
 class ChatRequest(BaseModel):
     session_id: str
     message: str
@@ -126,11 +135,29 @@ class ChatRequest(BaseModel):
         return v
 
 
-# ── Main endpoint ─────────────────────────────────────────────────────────────
+# ── Endpoints ────────────────────────────────────────────────────────────────
 @app.get("/health")
 async def health():
     cleanup_sessions()
     return {"status": "ok", "role": "ai-service", "pii": False, "sessions": len(sessions)}
+
+
+@app.post("/notify")
+async def notify(
+    request: Request,
+    body: NotifyRequest,
+    x_internal_key: str | None = Header(default=None),
+):
+    """Получает квалифицированный лид от Gateway и шлёт Telegram-уведомление.
+    ПДн (contacts) здесь только в памяти, не сохраняются."""
+    if x_internal_key != INTERNAL_KEY:
+        raise HTTPException(status_code=403, detail="Forbidden")
+    try:
+        await send_lead_card(body.answers, body.pii, body.session_id)
+    except Exception as e:
+        log.error("Telegram notify failed | session=%s | %s", body.session_id[:8], e)
+        raise HTTPException(status_code=500, detail="Telegram send failed")
+    return {"ok": True}
 
 
 @app.post("/chat")

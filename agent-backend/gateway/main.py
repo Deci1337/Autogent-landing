@@ -32,7 +32,6 @@ from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIMiddleware
 
 from pii_detector import detect_and_redact
-from telegram_notifier import send_lead_card
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger(__name__)
@@ -245,10 +244,22 @@ async def chat(request: Request, body: ChatRequest):
 
         await save_lead(body.session_id, answers)
 
-        # Fire-and-forget Telegram notification with proper error logging
+        # Fire-and-forget: просим AI-сервер отправить Telegram
+        # (Telegram заблокирован в РФ — уведомление идёт с не-РФ сервера)
         async def _notify() -> None:
             try:
-                await send_lead_card(answers, session_pii, body.session_id)
+                async with httpx.AsyncClient(timeout=15.0) as client:
+                    r = await client.post(
+                        f"{AI_SERVICE_URL}/notify",
+                        json={
+                            "session_id": body.session_id,
+                            "answers":    answers,
+                            "pii":        session_pii,
+                        },
+                        headers={"X-Internal-Key": AI_SERVICE_KEY},
+                    )
+                    if r.status_code != 200:
+                        log.error("Notify failed: %s", r.text)
             except Exception as exc:
                 log.error("Telegram notification failed | session=%s | %s",
                           body.session_id[:8], exc)
