@@ -6,7 +6,7 @@ import TiltedCard from './TiltedCard';
 const CASES = [
   {
     id: 4,
-    niche: 'Интернет-магазин',
+    niche: 'E-COM',
     tag: 'Интернет-магазин электротехники',
     title: 'Заменили 4 менеджеров на ИИ. ФОТ сократился на 280 000 в месяц',
     result: '−280 000 ₽/мес ФОТ, оформление заказа 40 мин → 3 мин',
@@ -415,7 +415,7 @@ function CaseCard({ c, onClick }) {
             ))}
           </div>
           <div className="flex items-center gap-2 text-[14px] font-semibold text-orange group-hover:gap-3 transition-all duration-200">
-            Подробнее
+            Читать подробнее
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -460,7 +460,10 @@ export default function CasesShowcase() {
         <SectionHeader
           index="05" kicker="Кейсы"
           title={<>Что уже <span className="text-orange">работает</span> у клиентов</>}
-          intro="Реальные внедрения с измеримыми результатами — от аудита до запуска."
+          intro={<>
+            <span className="block">Сотрудничаем с e-com, производствами, авто, строительными и другими сферами.</span>
+            <span className="block">Почитайте подробно о каждой работе.</span>
+          </>}
         />
 
         {/* полоска с карточками + стрелки по бокам */}
