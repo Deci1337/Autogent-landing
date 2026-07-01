@@ -45,7 +45,7 @@ export default function AuditCTA() {
           </div>
 
           {/* ── Правая колонка — чат с агентом ── */}
-          <div className="rounded-xl3 bg-seashell p-5 sm:p-6 flex flex-col" style={{ minHeight: '480px' }}>
+          <div className="rounded-xl3 bg-seashell p-5 sm:p-6 flex flex-col" style={{ height: '500px' }}>
             <LeadChat />
           </div>
 
