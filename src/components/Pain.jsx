@@ -46,7 +46,10 @@ export default function Pain() {
       <SectionHeader
         kicker="Проверьте себя"
         title={<>Если узнали себя, значит, есть потенциал <span className="text-orange">увеличить прибыль</span> внедрив ИИ-агентов</>}
-        intro="Шесть ситуаций, которые обходятся бизнесу минимум в 200 тыс. ₽ в месяц. Если хотя бы две из них про ваш бизнес, аудит окупится за первую неделю."
+        intro={<>
+          <span className="block whitespace-nowrap">Шесть ситуаций, которые обходятся бизнесу минимум в 200 тыс. ₽ в месяц.</span>
+          <span className="block whitespace-nowrap">Если хотя бы две из них про ваш бизнес, аудит окупится за первую неделю.</span>
+        </>}
       />
       <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {PAINS.map((p, i) => (
