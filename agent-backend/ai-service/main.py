@@ -4,6 +4,7 @@ AI Service — runs on 151.247.196.36
 """
 import os
 import time
+import asyncio
 import logging
 from contextlib import asynccontextmanager
 
@@ -13,12 +14,12 @@ from pydantic import BaseModel, field_validator
 from slowapi import Limiter
 from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIMiddleware
-from openai import OpenAI, APITimeoutError, APIError
+from openai import AsyncOpenAI, APITimeoutError, APIError
 from dotenv import load_dotenv
 
 from funnel import (
     SYSTEM_PROMPT, detect_show_budget, detect_done,
-    extract_contact_from_text, extract_answers_from_history,
+    extract_answers_from_history,
 )
 from security import sanitize, turns_exceeded, budget_exceeded, InputError
 
@@ -27,13 +28,13 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 log = logging.getLogger(__name__)
 
 # ── REQUIRED: INTERNAL_KEY must be set ────────────────────────────────────────
-INTERNAL_KEY = os.environ["INTERNAL_KEY"]   # KeyError = сервер не стартует без ключа
+INTERNAL_KEY = os.environ["INTERNAL_KEY"]
 if len(INTERNAL_KEY) < 32:
     raise RuntimeError("INTERNAL_KEY must be at least 32 characters")
 
-_openai = OpenAI(
+_openai = AsyncOpenAI(
     api_key=os.environ["OPENAI_API_KEY"],
-    timeout=25.0,          # explicit timeout — не зависнет навсегда
+    timeout=25.0,
     max_retries=1,
 )
 MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
@@ -52,7 +53,7 @@ def get_session(sid: str) -> dict:
             "created_at":    now,
             "done":          False,
             "total_tokens":  0,
-            "budget_shown":  False,   # показывали ли уже чипы бюджета
+            "budget_shown":  False,
         }
     return sessions[sid]
 
@@ -62,19 +63,24 @@ def cleanup_sessions() -> None:
     expired = [k for k, v in sessions.items() if now - v["created_at"] > SESSION_TTL]
     for k in expired:
         del sessions[k]
+    if expired:
+        log.info("Cleaned up %d expired sessions", len(expired))
 
 
-# ── Rate limiter keyed by session_id (не по IP — весь трафик с одного IP) ──
+async def _periodic_cleanup() -> None:
+    while True:
+        await asyncio.sleep(600)
+        cleanup_sessions()
+
+
+# ── Rate limiter keyed by session_id ──────────────────────────────────────────
 def _session_key(request: Request) -> str:
     try:
-        # FastAPI не читает body в key_func — используем X-Session-Id header
-        return request.headers.get("X-Session-Id", get_remote_address(request))
+        return request.headers.get("X-Session-Id") or (
+            request.client.host if request.client else "unknown"
+        )
     except Exception:
         return "unknown"
-
-
-def get_remote_address(request: Request) -> str:
-    return request.client.host if request.client else "unknown"
 
 
 limiter = Limiter(key_func=_session_key)
@@ -83,14 +89,15 @@ limiter = Limiter(key_func=_session_key)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     log.info("AI Service starting | model=%s | NO PII", MODEL)
+    task = asyncio.create_task(_periodic_cleanup())
     yield
+    task.cancel()
     log.info("AI Service shutting down")
 
 
 app = FastAPI(title="Autogent AI Service", lifespan=lifespan, docs_url=None, redoc_url=None)
 app.state.limiter = limiter
 app.add_middleware(SlowAPIMiddleware)
-# Нет CORS middleware — только gateway обращается к этому сервису напрямую
 
 
 @app.exception_handler(RateLimitExceeded)
@@ -146,10 +153,12 @@ async def chat(
         return {"reply": "Спасибо! Команда Autogent скоро свяжется с вами.", "done": True, "answers": None}
 
     if turns_exceeded(session["history"]):
+        session["done"] = True
         log.info("Session %s: max turns exceeded", body.session_id[:8])
         return {"reply": "Спасибо за диалог! Команда Autogent свяжется с вами в течение рабочего дня.", "done": True, "answers": None}
 
     if budget_exceeded(session["total_tokens"]):
+        session["done"] = True
         log.warning("Session %s: token budget exceeded (%d)", body.session_id[:8], session["total_tokens"])
         return {"reply": "Команда Autogent свяжется с вами в течение рабочего дня.", "done": True, "answers": None}
 
@@ -165,16 +174,16 @@ async def chat(
 
     session["history"].append({"role": "user", "content": safe_msg})
 
-    # ── 4. Вызов OpenAI ───────────────────────────────────────────────────────
+    # ── 4. Вызов OpenAI (async — не блокирует event loop) ────────────────────
     try:
-        response = _openai.chat.completions.create(
+        response = await _openai.chat.completions.create(
             model=MODEL,
-            max_tokens=400,       # ограничиваем ответ агента
+            max_tokens=400,
             temperature=0.65,
             messages=[{"role": "system", "content": SYSTEM_PROMPT}] + session["history"],
         )
     except APITimeoutError:
-        session["history"].pop()  # откатываем — не сохраняем неудачный turn
+        session["history"].pop()
         log.error("OpenAI timeout | session=%s", body.session_id[:8])
         raise HTTPException(status_code=504, detail="AI timeout")
     except APIError as e:
@@ -182,7 +191,14 @@ async def chat(
         log.error("OpenAI API error: %s | session=%s", e, body.session_id[:8])
         raise HTTPException(status_code=502, detail="AI error")
 
-    reply = response.choices[0].message.content.strip()
+    # choices[0].message.content can be None on content_filter finish_reason
+    content = response.choices[0].message.content
+    if not content:
+        session["history"].pop()
+        log.warning("OpenAI returned empty content | session=%s", body.session_id[:8])
+        raise HTTPException(status_code=502, detail="AI returned empty response")
+
+    reply = content.strip()
     session["history"].append({"role": "assistant", "content": reply})
     session["total_tokens"] += response.usage.total_tokens
 
@@ -196,13 +212,10 @@ async def chat(
 
     if done:
         session["done"] = True
-        # Извлечь структурированные ответы и контакт
-        contact = extract_contact_from_text(safe_msg)
-        answers = extract_answers_from_history(session["history"], _openai, MODEL)
-        if contact and not answers.get("contact"):
-            answers["contact"] = contact
-        log.info("Session %s DONE | contact=%s | tokens=%d",
-                 body.session_id[:8], answers.get("contact", "—"), session["total_tokens"])
+        # Contact comes from gateway's SQLite PII store, not from here.
+        # extract_answers_from_history returns dict with q1..q5; contact is overwritten by gateway.
+        answers = await extract_answers_from_history(session["history"], _openai, MODEL)
+        log.info("Session %s DONE | tokens=%d", body.session_id[:8], session["total_tokens"])
 
     log.info("Session %s | turn=%d | tokens_total=%d | done=%s",
              body.session_id[:8], len(session["history"]) // 2, session["total_tokens"], done)
@@ -211,5 +224,5 @@ async def chat(
         "reply":       reply,
         "show_budget": show_budget,
         "done":        done,
-        "answers":     answers,   # dict с q1..q5 + contact, если done=True
+        "answers":     answers,
     }

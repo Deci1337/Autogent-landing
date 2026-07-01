@@ -72,11 +72,10 @@ def extract_contact_from_text(text: str) -> str:
     return m.group(0).strip() if m else ""
 
 
-def extract_answers_from_history(history: list[dict], openai_client, model: str) -> dict:
+async def extract_answers_from_history(history: list[dict], openai_client, model: str) -> dict:
     """
     After session completion, use OpenAI to extract structured answers.
-    Returns dict with keys: q1..q5, contact.
-    This is a cheap summarization call — gpt-4o-mini is fast and cheap.
+    Returns dict with keys: q1..q5, contact (contact may be a placeholder — gateway overwrites from SQLite).
     """
     transcript = "\n".join(
         f"{'Клиент' if m['role'] == 'user' else 'Агент'}: {m['content']}"
@@ -99,19 +98,19 @@ def extract_answers_from_history(history: list[dict], openai_client, model: str)
     )
 
     try:
-        resp = openai_client.chat.completions.create(
+        resp = await openai_client.chat.completions.create(
             model=model,
             messages=[{"role": "user", "content": extraction_prompt}],
             max_tokens=400,
             temperature=0,
-            timeout=15,
         )
-        raw = resp.choices[0].message.content.strip()
-        # strip possible markdown fences
+        content = resp.choices[0].message.content
+        if not content:
+            raise ValueError("Empty extraction response")
+        raw = content.strip()
         raw = re.sub(r"^```(?:json)?\s*|\s*```$", "", raw, flags=re.MULTILINE).strip()
         return json.loads(raw)
     except Exception as e:
         log.warning("Answer extraction failed: %s", e)
-        # Fallback: return raw user messages
         user_msgs = [m["content"] for m in history if m["role"] == "user"]
-        return {f"q{i+1}": v for i, v in enumerate(user_msgs[:5])} | {"contact": user_msgs[-1] if user_msgs else ""}
+        return {f"q{i+1}": v for i, v in enumerate(user_msgs[:5])} | {"contact": None}
