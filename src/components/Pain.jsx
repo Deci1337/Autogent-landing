@@ -51,10 +51,10 @@ export default function Pain() {
           <span className="block whitespace-nowrap">Если хотя бы две из них про ваш бизнес, аудит окупится за первую неделю.</span>
         </>}
       />
-      <div className="mt-14 -mx-5 sm:-mx-8 px-5 sm:px-8 overflow-x-auto">
-        <div className="flex gap-5" style={{ width: 'max-content' }}>
+      <div className="mt-14 overflow-x-auto">
+        <div className="flex gap-5" style={{ width: 'max-content', paddingBottom: 4 }}>
           {PAINS.map((p, i) => (
-            <Reveal key={p.n} delay={i * 80} className="transition-all duration-500 hover:-translate-y-1 flex-shrink-0" style={{ width: 'calc((100vw - 2 * 20px - 2 * 5px) / 3)', minWidth: 280, maxWidth: 420 }}>
+            <Reveal key={p.n} delay={i * 80} className="flex-shrink-0 transition-all duration-500 hover:-translate-y-1" style={{ width: 'clamp(280px, calc(33vw - 24px), 400px)' }}>
               <BorderGlow
                 backgroundColor="#fffaf5"
                 glowColor="30 90 65"
@@ -64,7 +64,7 @@ export default function Pain() {
                 glowIntensity={1.2}
                 coneSpread={22}
               >
-                <div className="flex flex-col p-8 gap-3" style={{ height: 280 }}>
+                <div className="flex flex-col p-8 gap-3" style={{ height: 300 }}>
                   <span className="font-mono text-[13px] text-orange">{p.n}</span>
                   <h3 className="font-display text-[1.2rem] font-bold text-ink leading-snug">{p.t}</h3>
                   <p className="text-[0.82rem] font-semibold text-orange leading-snug">{p.cost}</p>
