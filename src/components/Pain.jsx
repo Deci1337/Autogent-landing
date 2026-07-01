@@ -51,8 +51,8 @@ export default function Pain() {
           <span className="block whitespace-nowrap">Если хотя бы две из них про ваш бизнес, аудит окупится за первую неделю.</span>
         </>}
       />
-      <div className="mt-14 overflow-x-auto">
-        <div className="flex gap-5" style={{ width: 'max-content' }}>
+      <div className="mt-14 overflow-x-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        <div className="flex gap-5 pb-2" style={{ width: 'max-content' }}>
           {PAINS.map((p, i) => (
             <div key={p.n} className="flex-shrink-0" style={{ width: 380 }}>
               <BorderGlow
