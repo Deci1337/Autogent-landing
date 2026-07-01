@@ -54,7 +54,7 @@ const CASES = [
     results: [
       { label: 'Время первого ответа', before: '1–6 часов', after: '< 1 мин' },
       { label: 'Потерянные заявки в сезон', before: '~30%', after: '~0%' },
-      { label: 'Записи на замер', before: 'База', after: '+20%' },
+      { label: 'Записи на замер', before: '14%', after: '34%' },
     ],
   },
   {
