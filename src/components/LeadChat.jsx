@@ -71,18 +71,42 @@ export default function LeadChat() {
 
   useEffect(() => { scrollToBottom(); }, [messages, loading, showBudget]);
 
-  // Приветствие — три сообщения с задержкой
+  // Приветствие — три сообщения с печатающим индикатором между ними
   useEffect(() => {
     const msgs = [
       'Привет! Я задам несколько вопросов о вашем бизнесе.',
       'Это нужно, чтобы мы заранее подготовили конкретные процессы и цифры экономии до звонка с вами. Так 25 минут аудита будут максимально полезны.',
       'Для начала: чем занимается ваша компания и что продаёте? Чем подробнее — тем точнее будет анализ.',
     ];
-    let t1, t2, t3;
-    setMessages([{ role: 'assistant', content: msgs[0] }]);
-    t1 = setTimeout(() => setMessages((p) => [...p, { role: 'assistant', content: msgs[1] }]), 900);
-    t2 = setTimeout(() => setMessages((p) => [...p, { role: 'assistant', content: msgs[2] }]), 1900);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
+
+    const timers = [];
+
+    // msg 1: сразу печатаем → показываем
+    setLoading(true);
+    timers.push(setTimeout(() => {
+      setLoading(false);
+      setMessages([{ role: 'assistant', content: msgs[0] }]);
+
+      // msg 2: пауза → печатаем → показываем
+      timers.push(setTimeout(() => {
+        setLoading(true);
+        timers.push(setTimeout(() => {
+          setLoading(false);
+          setMessages((p) => [...p, { role: 'assistant', content: msgs[1] }]);
+
+          // msg 3: пауза → печатаем → показываем
+          timers.push(setTimeout(() => {
+            setLoading(true);
+            timers.push(setTimeout(() => {
+              setLoading(false);
+              setMessages((p) => [...p, { role: 'assistant', content: msgs[2] }]);
+            }, 900));
+          }, 400));
+        }, 900));
+      }, 400));
+    }, 600));
+
+    return () => timers.forEach(clearTimeout);
   }, []);
 
   const send = useCallback(async (text) => {
