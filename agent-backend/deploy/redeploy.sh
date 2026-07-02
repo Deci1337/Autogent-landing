@@ -18,7 +18,7 @@ if [[ "$ROLE" == "gateway" ]]; then
     systemctl restart "$SERVICE"
     echo "→ Пересобираем фронт..."
     cd "$REPO_DIR"
-    npm ci --silent && npm run build --silent
+    npm install --silent && npm run build --silent
     rsync -a --delete dist/ "$SITE_DIR/"
     systemctl reload nginx
     echo "✓ Gateway + фронт обновлены"
