@@ -14,7 +14,7 @@ if [[ "$ROLE" == "gateway" ]]; then
     SITE_DIR="/var/www/autogent"
 
     echo "→ Обновляем gateway..."
-    cp "$SRC/main.py" "$SRC/pii_detector.py" "$SRC/telegram_notifier.py" "$APP_DIR/"
+    cp "$SRC/main.py" "$SRC/pii_detector.py" "$APP_DIR/"
     systemctl restart "$SERVICE"
     echo "→ Пересобираем фронт..."
     cd "$REPO_DIR"
