@@ -20,7 +20,7 @@ if [[ "$ROLE" == "gateway" ]]; then
     cd "$REPO_DIR"
     npm install --silent && npm run build --silent
     rsync -a --delete dist/ "$SITE_DIR/"
-    systemctl reload nginx
+    cd /root/n8n && docker compose kill -s HUP caddy 2>/dev/null || true
     echo "✓ Gateway + фронт обновлены"
 
 elif [[ "$ROLE" == "ai" ]]; then
