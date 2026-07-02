@@ -41,9 +41,8 @@ export default function HowItWorks() {
                     className="w-full object-contain"
                     style={{
                       maxHeight: 180,
-                      mixBlendMode: 'multiply',
-                      WebkitMaskImage: 'radial-gradient(ellipse 88% 88% at 50% 52%, black 45%, transparent 80%)',
-                      maskImage: 'radial-gradient(ellipse 88% 88% at 50% 52%, black 45%, transparent 80%)',
+                      WebkitMaskImage: 'radial-gradient(ellipse 92% 88% at 50% 48%, black 28%, transparent 62%)',
+                      maskImage: 'radial-gradient(ellipse 92% 88% at 50% 48%, black 28%, transparent 62%)',
                     }}
                     draggable={false}
                   />
