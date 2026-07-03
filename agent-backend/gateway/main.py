@@ -197,9 +197,45 @@ class ChatRequest(BaseModel):
         return v
 
 
+class LeadRequest(BaseModel):
+    business: str = ""
+    task: str = ""
+    tried: str = ""
+    budget: str = ""
+    tools: str = ""
+    name: str = ""
+    phone: str = ""
+
+
 @app.get("/health")
 async def health():
     return {"status": "ok", "role": "gateway"}
+
+
+@app.post("/lead")
+@limiter.limit("5/minute")
+async def lead(request: Request, body: LeadRequest):
+    import uuid
+    session_id = str(uuid.uuid4()).replace("-", "")
+    answers = {
+        "q1": body.business, "q2": body.task, "q3": body.tried,
+        "q4": body.budget, "q5": body.tools,
+        "contact": f"{body.name} | {body.phone}".strip(" |"),
+    }
+    await save_lead(session_id, answers)
+
+    async def _notify():
+        try:
+            async with httpx.AsyncClient(timeout=15.0) as client:
+                await client.post(
+                    f"{AI_SERVICE_URL}/notify",
+                    json={"session_id": session_id, "answers": answers, "pii": {"phone": [body.phone]}},
+                    headers={"X-Internal-Key": AI_SERVICE_KEY},
+                )
+        except Exception as exc:
+            log.error("Lead notify failed: %s", exc)
+    asyncio.create_task(_notify())
+    return {"ok": True}
 
 
 @app.post("/chat")
