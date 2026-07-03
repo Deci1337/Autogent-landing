@@ -1,5 +1,5 @@
 import { Reveal, Section } from './shared';
-import LeadChat from './LeadChat';
+import QualForm from './QualForm';
 
 const BULLETS = [
   'Разберём бизнес и покажем, где ИИ окупается — за 25 минут',
@@ -44,9 +44,9 @@ export default function AuditCTA() {
             </ul>
           </div>
 
-          {/* ── Правая колонка — чат с агентом ── */}
-          <div className="rounded-xl3 bg-seashell p-5 sm:p-6 flex flex-col" style={{ height: '500px' }}>
-            <LeadChat />
+          {/* ── Правая колонка — квалификационная форма ── */}
+          <div className="rounded-xl3 bg-seashell p-5 sm:p-6 flex flex-col" style={{ minHeight: '420px' }}>
+            <QualForm />
           </div>
 
         </div>
