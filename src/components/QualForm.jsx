@@ -160,7 +160,6 @@ export default function QualForm() {
       {current.type === 'textarea' && (
         <textarea
           key={current.key}
-          autoFocus
           value={val}
           onChange={(e) => setVal(e.target.value)}
           placeholder={current.hint}
