@@ -47,8 +47,11 @@ export default function Pain() {
   const scrollRef = useRef(null);
 
   const scroll = (dir) => {
-    if (!scrollRef.current) return;
-    scrollRef.current.scrollBy({ left: dir * (CARD_W + GAP), behavior: 'smooth' });
+    const el = scrollRef.current;
+    if (!el) return;
+    const card = el.querySelector('[data-card]');
+    const step = (card ? card.offsetWidth : CARD_W) + GAP;
+    el.scrollBy({ left: dir * step, behavior: 'smooth' });
   };
 
   return (
@@ -57,8 +60,8 @@ export default function Pain() {
         kicker="Проверьте себя"
         title={<>Если узнали себя, значит, есть потенциал <span className="text-orange">увеличить прибыль</span> внедрив ИИ-агентов</>}
         intro={<>
-          <span className="block whitespace-nowrap">Шесть ситуаций, которые обходятся бизнесу минимум в сотни тысяч рублей в месяц.</span>
-          <span className="block whitespace-nowrap">Если хотя бы две из них про ваш бизнес, аудит окупится за первую неделю.</span>
+          <span className="block md:whitespace-nowrap">Шесть ситуаций, которые обходятся бизнесу минимум в сотни тысяч рублей в месяц.</span>
+          <span className="block md:whitespace-nowrap">Если хотя бы две из них про ваш бизнес, аудит окупится за первую неделю.</span>
         </>}
       />
 
@@ -77,8 +80,8 @@ export default function Pain() {
         >
           <div className="flex gap-5" style={{ width: 'max-content' }}>
             {PAINS.map((p) => (
-              <div key={p.n} className="flex-shrink-0" style={{ width: CARD_W }}>
-                <div className="flex flex-col p-8 gap-3 rounded-[20px] border border-ink/[0.08] bg-white" style={{ height: 300 }}>
+              <div key={p.n} data-card className="flex-shrink-0" style={{ width: 'min(380px, 82vw)' }}>
+                <div className="flex flex-col p-7 sm:p-8 gap-3 rounded-[20px] border border-ink/[0.08] bg-white" style={{ minHeight: 300 }}>
                   <span className="font-mono text-[13px] text-orange">{p.n}</span>
                   <h3 className="font-display text-[1.2rem] font-bold text-ink leading-snug">{p.t}</h3>
                   <p className="text-[0.82rem] font-semibold text-orange leading-snug">{p.cost}</p>
