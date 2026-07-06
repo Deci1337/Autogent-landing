@@ -498,6 +498,15 @@ export default function CasesShowcase() {
             <div className="shrink-0 w-1" aria-hidden="true" />
           </div>
         </div>
+
+        <p className="mx-auto mt-6 max-w-2xl px-4 text-center text-[12.5px] leading-relaxed text-ink/45">
+          <svg className="mr-1 inline-block -mt-0.5 h-3.5 w-3.5 text-ink/35" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" strokeWidth="1.8" />
+            <path d="M8 11V8a4 4 0 018 0v3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+          </svg>
+          С многими компаниями подписываем NDA, поэтому здесь без названий. Конкретные кейсы обсудим на созвоне с командой, а пока нажимайте{' '}
+          <span className="font-semibold text-orange">«Подробнее»</span>, чтобы прочитать всю нашу работу над кейсом.
+        </p>
       </Section>
 
       {/* модал */}
