@@ -883,8 +883,10 @@ class TestRealUserBehavior:
         reply = d["reply"]
         assert reply
         assert not d["done"]
-        # Агент не должен врать что он человек
-        assert not any(w in reply.lower() for w in ["я человек", "я живой", "я менеджер"])
+        # Агент не должен врать что он живой человек
+        assert not any(w in reply.lower() for w in ["я живой человек", "я настоящий человек", "я обычный менеджер"])
+        # Должен признать что он ИИ (в той или иной форме)
+        assert any(w in reply.lower() for w in ["ии", "ии-ассистент", "ассистент", "бот", "искусствен", "чат", "автомат"])
 
     def test_says_not_interested(self, http):
         """Пользователь сразу говорит 'не интересует'."""
