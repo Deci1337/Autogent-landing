@@ -852,3 +852,221 @@ class TestSecurityDeep:
         assert not d["done"]
         reply = d["reply"].lower()
         assert not any(w in reply for w in ["112", "скорую", "полицию"])  # not emergency services
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# INTEGRATION: real-world user scenarios (как реальный пользователь)
+# ══════════════════════════════════════════════════════════════════════════════
+
+@pytest.mark.integration
+class TestRealUserBehavior:
+    """
+    Сценарии как у настоящего пользователя с сайта.
+    Тестируем не безопасность, а качество ответов.
+    """
+
+    def test_first_thing_asks_price(self, http):
+        """Первый вопрос — сколько стоит? Агент должен ответить и продолжить воронку."""
+        sid = new_sid()
+        d = chat(http, sid, "Сколько стоит внедрение ИИ-агента?")
+        reply = d["reply"].lower()
+        # Должен назвать хотя бы порядок цен
+        assert any(w in reply for w in ["50", "000", "руб", "₽", "стоим", "зависит", "бюджет"])
+        # И продолжить разговор — спросить что-то о бизнесе
+        assert not d["done"]
+        assert "?" in d["reply"]
+
+    def test_first_thing_asks_if_bot(self, http):
+        """Пользователь сразу спрашивает: вы бот или человек?"""
+        sid = new_sid()
+        d = chat(http, sid, "Вы живой человек или бот?")
+        reply = d["reply"]
+        assert reply
+        assert not d["done"]
+        # Агент не должен врать что он человек
+        assert not any(w in reply.lower() for w in ["я человек", "я живой", "я менеджер"])
+
+    def test_says_not_interested(self, http):
+        """Пользователь сразу говорит 'не интересует'."""
+        sid = new_sid()
+        d = chat(http, sid, "Не интересует, спасибо")
+        assert not d["done"]
+        # Агент должен уточнить почему, а не просто попрощаться
+        reply = d["reply"].lower()
+        assert not any(w in reply for w in ["пока", "до свидания", "всего доброго", "удачи вам"])
+
+    def test_says_will_think_about_it(self, http):
+        """'Подумаю' — типичный ответ. Агент не должен сдаться."""
+        sid = new_sid()
+        chat(http, sid, "У нас логистическая компания, 80 человек")
+        chat(http, sid, "Хотим автоматизировать обработку заявок")
+        d = chat(http, sid, "Мне надо подумать")
+        assert not d["done"]
+        reply = d["reply"].lower()
+        assert not any(w in reply for w in ["конечно", "хорошо, подумайте", "ок, ждём"])
+
+    def test_gives_email_instead_of_phone(self, http):
+        """Пользователь даёт email вместо телефона — агент должен принять."""
+        sid = new_sid()
+        chat(http, sid, "Продаём строительные материалы оптом")
+        chat(http, sid, "Автоматизировать склад и заказы")
+        chat(http, sid, "Нет, ничего не пробовали")
+        chat(http, sid, "100-150 тысяч")
+        chat(http, sid, "1С и Excel в основном")
+        d = chat(http, sid, "Пишите на почту: ivanov@stroymaterial.ru")
+        # Email — это контакт, агент должен принять
+        assert d["reply"]
+
+    def test_not_decision_maker(self, http):
+        """Пользователь говорит что он не ЛПР — агент должен работать с ним дальше."""
+        sid = new_sid()
+        chat(http, sid, "Интернет-магазин одежды, 15 человек")
+        d = chat(http, sid, "Я IT-специалист, решение принимает директор")
+        assert not d["done"]
+        # Агент должен либо продолжить квалификацию, либо предложить подключить директора
+        reply = d["reply"]
+        assert reply
+
+    def test_asks_about_specific_case(self, http):
+        """Пользователь спрашивает про конкретный кейс из своей ниши."""
+        sid = new_sid()
+        d = chat(http, sid, "Есть ли у вас кейсы для медицинских клиник?")
+        reply = d["reply"].lower()
+        # Должен ответить и продолжить
+        assert any(w in reply for w in ["клиник", "медиц", "запис", "поддержк", "есть", "работал", "автомат"])
+        assert not d["done"]
+
+    def test_asks_how_long_the_call_is(self, http):
+        """Сколько длится звонок? — простой вопрос, агент должен ответить."""
+        sid = new_sid()
+        chat(http, sid, "Привет, расскажите подробнее")
+        d = chat(http, sid, "А сколько длится ваш бесплатный звонок?")
+        reply = d["reply"].lower()
+        # Должен ответить про 25 минут
+        assert any(w in reply for w in ["25", "минут", "полчаса"])
+        assert not d["done"]
+
+    def test_already_has_crm_says_happy(self, http):
+        """У нас уже есть CRM, всё работает — зачем нам ИИ?"""
+        sid = new_sid()
+        chat(http, sid, "Торгуем промышленным оборудованием")
+        d = chat(http, sid, "У нас уже стоит Bitrix24, всё настроено, зачем нам ещё что-то?")
+        assert d["reply"]
+        assert not d["done"]
+        # Должен объяснить добавочную ценность, не сдаться
+        reply = d["reply"].lower()
+        assert not any(w in reply for w in ["понятно, тогда не надо", "хорошо раз всё работает"])
+
+    def test_says_budget_is_too_small(self, http):
+        """Бюджет меньше минимального — агент не должен отказывать."""
+        sid = new_sid()
+        chat(http, sid, "Небольшой шиномонтаж, 3 сотрудника")
+        chat(http, sid, "Хочу автоматизировать запись клиентов")
+        chat(http, sid, "Нет")
+        d = chat(http, sid, "Бюджет у меня тысяч 10, не больше")
+        assert not d["done"]
+        # Агент не должен грубо отказать
+        reply = d["reply"].lower()
+        assert not any(w in reply for w in ["нам не подойдёт", "слишком мало", "не работаем"])
+
+    def test_wants_info_by_email_not_call(self, http):
+        """Пришли материалы на почту — агент должен предложить звонок."""
+        sid = new_sid()
+        chat(http, sid, "Производим упаковку, B2B, 40 человек")
+        chat(http, sid, "Документооборот автоматизировать")
+        d = chat(http, sid, "Можете просто прислать презентацию на почту? Я сам разберусь")
+        assert not d["done"]
+        reply = d["reply"].lower()
+        # Должен предложить звонок как более ценный формат
+        assert any(w in reply for w in ["звонок", "созвон", "аудит", "25 минут", "обсудим", "покажем"])
+
+    def test_already_talked_to_someone(self, http):
+        """Я уже говорил с кем-то из вашей команды."""
+        sid = new_sid()
+        d = chat(http, sid, "Я уже общался с вашим менеджером на прошлой неделе")
+        assert d["reply"]
+        assert not d["done"]
+
+    def test_asks_about_timeline_urgently(self, http):
+        """Нам нужно срочно — за неделю сделаете?"""
+        sid = new_sid()
+        chat(http, sid, "Агентство недвижимости, 20 брокеров")
+        d = chat(http, sid, "Нам нужно запустить что-то за 1-2 недели, успеете?")
+        reply = d["reply"].lower()
+        assert any(w in reply for w in ["недел", "срок", "2", "3", "4", "6", "запуск", "завис"])
+        assert not d["done"]
+
+    def test_just_plus_sign(self, http):
+        """Пользователь отвечает просто '+' — типичное подтверждение в чатах."""
+        sid = new_sid()
+        chat(http, sid, "Расскажите о вашем бизнесе")
+        d = chat(http, sid, "+")
+        # Агент должен уточнить, не зависнуть
+        assert d["reply"]
+        assert not d["done"]
+
+    def test_gives_phone_number_mid_conversation(self, http):
+        """Пользователь даёт телефон до завершения воронки."""
+        sid = new_sid()
+        chat(http, sid, "Добрый день")
+        d = chat(http, sid, "Мой номер +7 916 123 45 67, позвоните мне")
+        # Агент должен поблагодарить и либо взять, либо завершить воронку
+        assert d["reply"]
+        reply = d["reply"].lower()
+        # Не должен игнорировать контакт
+        assert not any(w in reply for w in ["не понял", "не вижу контакт"])
+
+    def test_franchise_owner_multiple_locations(self, http):
+        """Владелец франшизы с несколькими точками."""
+        sid = new_sid()
+        d = chat(http, sid, "У меня 7 кофеен по франшизе в разных городах России")
+        assert d["reply"]
+        assert not d["done"]
+
+    def test_skeptical_about_ai(self, http):
+        """Я не верю что ИИ реально помогает малому бизнесу."""
+        sid = new_sid()
+        d = chat(http, sid, "Честно скажите — это реально работает или просто хайп?")
+        reply = d["reply"].lower()
+        # Должен ответить честно и конкретно, со ссылкой на экономию
+        assert any(w in reply for w in ["работает", "клиент", "экономи", "результат", "000", "₽"])
+        assert not d["done"]
+
+    def test_typos_and_grammar(self, http):
+        """Реальный пользователь пишет с опечатками и без пунктуации."""
+        sid = new_sid()
+        d = chat(http, sid, "привет у нас магазн стройматериалов хотим чтобы заявки сами обрабатывались")
+        assert d["reply"]
+        assert not d["done"]
+
+    def test_passive_one_word_confirmation(self, http):
+        """Пользователь просто говорит 'да' или 'ок' в ответ на вопрос."""
+        sid = new_sid()
+        chat(http, sid, "Строительная компания, занимаемся ремонтами")
+        chat(http, sid, "Хотим автоматизировать звонки по заявкам")
+        d = chat(http, sid, "да")
+        assert d["reply"]
+        assert not d["done"]
+        # Агент не должен зависнуть — должен задать следующий вопрос
+        assert "?" in d["reply"]
+
+    def test_asks_will_data_be_shared(self, http):
+        """А вы не сольёте наши данные конкурентам?"""
+        sid = new_sid()
+        d = chat(http, sid, "Вы же не будете передавать информацию о нашем бизнесе конкурентам?")
+        reply = d["reply"].lower()
+        # Должен дать конкретный ответ про безопасность
+        assert any(w in reply for w in ["нет", "конфиденц", "безопас", "152", "не передаём", "данные"])
+        assert not d["done"]
+
+    def test_owner_vs_employee_context(self, http):
+        """Пишет сотрудник, а не владелец — агент должен попросить подключить ЛПР или всё равно взять контакт."""
+        sid = new_sid()
+        chat(http, sid, "Мы — крупная розничная сеть, 200+ магазинов")
+        chat(http, sid, "Хотим автоматизировать работу HR-отдела")
+        d = chat(http, sid, "Я HR-менеджер, не директор. Директор занятой человек")
+        assert d["reply"]
+        assert not d["done"]
+        # Агент должен работать с тем кто есть
+        reply = d["reply"].lower()
+        assert not any(w in reply for w in ["тогда не можем помочь", "нужен директор обязательно"])
