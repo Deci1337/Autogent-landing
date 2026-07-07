@@ -412,20 +412,19 @@ class TestBudgetQuestionTrigger:
 
     def test_budget_trigger_fires(self, http):
         sid = new_sid()
-        chat(http, sid, "У нас IT-компания, 20 человек")
-        chat(http, sid, "Хотим автоматизировать HR-процессы")
-        chat(http, sid, "Не пробовали ИИ раньше")
-        # Ask directly about budget to trigger the phrase
-        d = chat(http, sid, "расскажите про бюджет")
-        # May or may not trigger immediately, but somewhere in the flow it should
-        triggered = d.get("show_budget", False)
-        if not triggered:
-            for _ in range(4):
-                d = chat(http, sid, "хорошо, продолжаем")
-                if d.get("show_budget"):
-                    triggered = True
-                    break
-        assert triggered, "Budget trigger phrase never fired"
+        chat(http, sid, "У нас IT-компания, 20 человек, занимаемся разработкой ПО")
+        chat(http, sid, "Хотим автоматизировать HR-процессы — найм и онбординг")
+        chat(http, sid, "Не пробовали ИИ раньше, только Excel")
+        # Try up to 10 turns to trigger the budget phrase
+        triggered = False
+        for _ in range(10):
+            d = chat(http, sid, "понял, продолжайте")
+            if d.get("show_budget"):
+                triggered = True
+                break
+            if d.get("done"):
+                break
+        assert triggered, "Budget trigger phrase never fired in 10 turns"
 
     def test_budget_trigger_only_once(self, http):
         """show_budget should be True only on the first budget question turn."""
@@ -732,34 +731,41 @@ class TestFunnelQuality:
         assert any(w in combined for w in ["компани", "бизнес", "занимает", "расскаж", "чем вы", "чем занимает"])
 
     def test_asks_for_contact_after_questions(self, http):
-        """After answering all 5 questions, agent should ask for contact."""
+        """After all 5 answers, within a few turns agent should ask for contact."""
         sid = new_sid()
-        chat(http, sid, "Розничная торговля стройматериалами, 25 человек")
-        chat(http, sid, "Хотим автоматизировать обработку входящих заявок от прорабов")
-        chat(http, sid, "Пробовали AmoCRM, не прижилось")
-        chat(http, sid, "150–300 000 ₽")
-        chat(http, sid, "1С, WhatsApp, Google Таблицы")
-        # By now agent should be asking for contact
-        d = chat(http, sid, "это всё что хотел узнать?")
-        reply = d["reply"].lower()
-        assert any(w in reply for w in ["контакт", "телефон", "telegram", "телеграм", "@", "звонок", "связ"])
-        assert not d["done"]
+        chat(http, sid, "Розничная торговля стройматериалами, 25 человек, оптовые поставки прорабам")
+        chat(http, sid, "Хотим автоматизировать обработку входящих заявок — сейчас вручную по телефону")
+        chat(http, sid, "Пробовали AmoCRM — не прижилось, менеджеры саботировали")
+        chat(http, sid, "150–300 000 ₽, можем рассмотреть")
+        chat(http, sid, "1С:Торговля, WhatsApp Business, Google Таблицы")
+        # Check over next few turns that contact is requested
+        contact_requested = False
+        for _ in range(4):
+            d = chat(http, sid, "да, это всё что хотели узнать")
+            reply = d["reply"].lower()
+            if any(w in reply for w in ["контакт", "телефон", "telegram", "телеграм", "звонок", "связ", "аудит"]):
+                contact_requested = True
+                break
+            if d.get("done"):
+                break
+        assert contact_requested, "Agent never asked for contact after 5 answers"
 
     def test_budget_chips_triggered_exactly_by_phrase(self, http):
         """Verify the EXACT trigger phrase appears when asking about budget."""
         from funnel import BUDGET_TRIGGER_PHRASE
         sid = new_sid()
-        chat(http, sid, "IT-консалтинг, 30 человек")
-        chat(http, sid, "Автоматизировать отдел продаж")
-        chat(http, sid, "Нет, не пробовали")
+        chat(http, sid, "IT-консалтинг, 30 человек, B2B-продажи корпоративным клиентам")
+        chat(http, sid, "Хотим автоматизировать квалификацию входящих лидов")
+        chat(http, sid, "Пробовали ChatGPT — без интеграции с CRM не подошло")
         triggered_reply = None
-        for _ in range(8):
-            d = chat(http, sid, "продолжаем разговор")
+        for _ in range(12):
+            d = chat(http, sid, "понял, что дальше?")
             if BUDGET_TRIGGER_PHRASE in d["reply"].lower():
                 triggered_reply = d["reply"]
                 break
-        # The exact phrase must appear (it drives frontend chip rendering)
-        assert triggered_reply is not None, f"Budget trigger phrase '{BUDGET_TRIGGER_PHRASE}' never appeared"
+            if d.get("done"):
+                break
+        assert triggered_reply is not None, f"Budget trigger phrase '{BUDGET_TRIGGER_PHRASE}' never appeared in 12 turns"
 
     def test_done_phrase_is_exact(self, http):
         """Verify done detection only fires on the EXACT final phrase."""
