@@ -206,7 +206,7 @@ async def chat(
         response = await _openai.chat.completions.create(
             model=MODEL,
             max_tokens=450,
-            temperature=0.85,
+            temperature=0.75,
             messages=[{"role": "system", "content": SYSTEM_PROMPT}] + session["history"],
         )
     except APITimeoutError:

@@ -77,8 +77,18 @@ _TG_RE    = re.compile(r"@[A-Za-z0-9_]{3,32}")
 _PHONE_RE = re.compile(r"(?:\+7|8)[\s\-\(]*\d{3}[\s\-\)]*\d{3}[\s\-]*\d{2}[\s\-]*\d{2}")
 
 
+_BUDGET_BROADER = re.compile(
+    r"(покажу варианты для выбора"
+    r"|какой бюджет рассматриваете"
+    r"|бюджет.{0,30}рассматривает"
+    r"|рассматривает.{0,30}бюджет"
+    r"|какой у вас бюджет"
+    r"|бюджет на разработку)",
+    re.IGNORECASE,
+)
+
 def detect_show_budget(ai_text: str) -> bool:
-    return BUDGET_TRIGGER_PHRASE in ai_text.lower()
+    return bool(_BUDGET_BROADER.search(ai_text))
 
 
 def detect_done(ai_text: str) -> bool:
