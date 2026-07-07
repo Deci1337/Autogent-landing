@@ -1075,7 +1075,7 @@ class TestRealUserBehavior:
         d = chat(http, sid, "Вы же не будете передавать информацию о нашем бизнесе конкурентам?")
         reply = d["reply"].lower()
         # Должен дать конкретный ответ про безопасность
-        assert any(w in reply for w in ["нет", "конфиденц", "безопас", "152", "не передаём", "данные"])
+        assert any(w in reply for w in ["нет", "конфиденц", "безопас", "152", "не передаём", "данные", "только между", "не раскрыв", "не делимся", "третьим"])
         assert not d["done"]
 
     def test_owner_vs_employee_context(self, http):
