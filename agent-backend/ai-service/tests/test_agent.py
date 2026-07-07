@@ -412,19 +412,22 @@ class TestBudgetQuestionTrigger:
 
     def test_budget_trigger_fires(self, http):
         sid = new_sid()
-        chat(http, sid, "У нас IT-компания, 20 человек, занимаемся разработкой ПО")
-        chat(http, sid, "Хотим автоматизировать HR-процессы — найм и онбординг")
-        chat(http, sid, "Не пробовали ИИ раньше, только Excel")
-        # Try up to 10 turns to trigger the budget phrase
         triggered = False
-        for _ in range(10):
-            d = chat(http, sid, "понял, продолжайте")
+        for m in ["У нас IT-компания, 20 человек, занимаемся разработкой ПО",
+                  "Хотим автоматизировать HR-процессы — найм и онбординг",
+                  "Не пробовали ИИ раньше, только Excel"]:
+            d = chat(http, sid, m)
             if d.get("show_budget"):
                 triggered = True
-                break
-            if d.get("done"):
-                break
-        assert triggered, "Budget trigger phrase never fired in 10 turns"
+        if not triggered:
+            for _ in range(10):
+                d = chat(http, sid, "понял, продолжайте")
+                if d.get("show_budget"):
+                    triggered = True
+                    break
+                if d.get("done"):
+                    break
+        assert triggered, "show_budget never became True in full conversation"
 
     def test_budget_trigger_only_once(self, http):
         """show_budget should be True only on the first budget question turn."""
@@ -753,18 +756,22 @@ class TestFunnelQuality:
     def test_budget_chips_triggered(self, http):
         """show_budget=True must fire at some point in a normal conversation."""
         sid = new_sid()
-        chat(http, sid, "IT-консалтинг, 30 человек, B2B-продажи корпоративным клиентам")
-        chat(http, sid, "Хотим автоматизировать квалификацию входящих лидов")
-        chat(http, sid, "Пробовали ChatGPT — без интеграции с CRM не подошло")
         triggered = False
-        for _ in range(12):
-            d = chat(http, sid, "понял, что дальше?")
+        for m in ["IT-консалтинг, 30 человек, B2B-продажи корпоративным клиентам",
+                  "Хотим автоматизировать квалификацию входящих лидов",
+                  "Пробовали ChatGPT — без интеграции с CRM не подошло"]:
+            d = chat(http, sid, m)
             if d.get("show_budget"):
                 triggered = True
-                break
-            if d.get("done"):
-                break
-        assert triggered, "show_budget never became True in 12 turns"
+        if not triggered:
+            for _ in range(12):
+                d = chat(http, sid, "понял, что дальше?")
+                if d.get("show_budget"):
+                    triggered = True
+                    break
+                if d.get("done"):
+                    break
+        assert triggered, "show_budget never became True in full conversation"
 
     def test_done_phrase_is_exact(self, http):
         """Verify done detection only fires on the EXACT final phrase."""
