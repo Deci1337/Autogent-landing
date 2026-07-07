@@ -1,3 +1,8 @@
+[tool.pytest.ini_options]
+markers = [
+    "integration: requires running server (set AGENT_URL env var)",
+]
+
 [project]
 name = "autogent-ai-service"
 version = "1.0.0"

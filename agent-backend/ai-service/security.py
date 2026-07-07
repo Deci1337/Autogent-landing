@@ -13,9 +13,34 @@ class InputError(ValueError):
     pass
 
 
+# Cyrillic chars that look like Latin — map them before ASCII encoding
+_LOOKALIKE = {
+    ord('а'): 'a',  # а → a
+    ord('е'): 'e',  # е → e
+    ord('о'): 'o',  # о → o
+    ord('р'): 'p',  # р → p
+    ord('с'): 'c',  # с → c
+    ord('у'): 'y',  # у → y
+    ord('х'): 'x',  # х → x
+    ord('А'): 'A',  # А → A
+    ord('В'): 'B',  # В → B
+    ord('Е'): 'E',  # Е → E
+    ord('К'): 'K',  # К → K
+    ord('М'): 'M',  # М → M
+    ord('Н'): 'H',  # Н → H
+    ord('О'): 'O',  # О → O
+    ord('Р'): 'P',  # Р → P
+    ord('С'): 'C',  # С → C
+    ord('Т'): 'T',  # Т → T
+    ord('Х'): 'X',  # Х → X
+}
+
 def _normalize(text: str) -> str:
-    """Lowercase + remove combining characters to defeat unicode obfuscation."""
-    return unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode().lower()
+    """Lowercase + remove combining chars + substitute cyrillic lookalikes → defeat unicode obfuscation."""
+    t = unicodedata.normalize("NFKD", text)
+    t = t.translate(_LOOKALIKE)
+    t = t.encode("ascii", "ignore").decode().lower()
+    return t
 
 
 # English + Russian injection patterns
@@ -36,7 +61,7 @@ _INJECTION_PATTERNS = [
     r"pretend\s+you\s+are",
     r"roleplay\s+as",
     # Russian
-    r"игнорир\w+\s+инструкци",
+    r"игнорир\w+.{0,25}инструкци",
     r"забудь\s+все\s+(предыдущие\s+)?инструкци",
     r"теперь\s+ты\b",
     r"ты\s+теперь\b",

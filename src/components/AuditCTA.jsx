@@ -45,7 +45,7 @@ export default function AuditCTA() {
           </div>
 
           {/* ── Правая колонка — квалификационная форма ── */}
-          <div className="rounded-xl3 bg-seashell p-5 sm:p-6 flex flex-col" style={{ minHeight: '420px' }}>
+          <div className="rounded-xl3 bg-seashell p-5 sm:p-6 flex flex-col" style={{ height: '480px' }}>
             <LeadChat />
           </div>
 
