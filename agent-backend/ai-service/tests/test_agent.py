@@ -1012,7 +1012,7 @@ class TestRealUserBehavior:
         chat(http, sid, "Агентство недвижимости, 20 брокеров")
         d = chat(http, sid, "Нам нужно запустить что-то за 1-2 недели, успеете?")
         reply = d["reply"].lower()
-        assert any(w in reply for w in ["недел", "срок", "2", "3", "4", "6", "запуск", "завис"])
+        assert any(w in reply for w in ["недел", "срок", "завис", "минималь", "запуск", "времен", "быстр", "обычно"])
         assert not d["done"]
 
     def test_just_plus_sign(self, http):
