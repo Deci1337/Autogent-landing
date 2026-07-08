@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { Reveal, Section, Pill } from './shared';
 
-// Kinescope: вставьте сюда ID видео из личного кабинета (в ссылке kinescope.io/<ID> или kinescope.io/embed/<ID>).
-// Пока пусто — на месте видео показывается заглушка «Видео скоро».
-const KINESCOPE_ID = '';
+// Kinescope: ID видео из личного кабинета (ссылка kinescope.io/embed/<ID>).
+// Пусто — на месте видео показывается заглушка «Видео скоро».
+const KINESCOPE_ID = '0TzSmADrfbGydwwdqAmfwN';
 
 function PlayButton() {
   return (
-    <div className="h-16 w-16 rounded-full bg-orange ring-4 ring-orange/25 grid place-items-center shadow-lg transition-transform duration-200 group-hover:scale-110">
+    <span className="h-16 w-16 rounded-full bg-orange ring-4 ring-white/40 grid place-items-center shadow-lg transition-transform duration-200 group-hover:scale-110">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <polygon points="6,4 20,12 6,20" fill="#fff" />
       </svg>
-    </div>
+    </span>
   );
 }
 
@@ -49,28 +49,23 @@ export default function VideoSection() {
               <iframe
                 src={`https://kinescope.io/embed/${KINESCOPE_ID}?autoplay=1`}
                 title="О нас"
-                allow="autoplay; fullscreen; picture-in-picture; encrypted-media;"
+                allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;"
                 allowFullScreen
                 className="absolute inset-0 w-full h-full"
               />
             ) : (
-              // Фасад: постер Kinescope + кнопка play
+              // Фасад: фирменный градиент + кнопка play (iframe ещё не загружен)
               <button
                 type="button"
                 onClick={() => setPlaying(true)}
                 aria-label="Смотреть видео"
-                className="group absolute inset-0 w-full h-full cursor-pointer focus:outline-none"
+                className="group absolute inset-0 w-full h-full cursor-pointer focus:outline-none bg-gradient-to-br from-[#2a1a10] via-[#3a2414] to-[#1a1208]"
               >
-                <img
-                  src={`https://kinescope.io/${KINESCOPE_ID}/poster`}
-                  alt=""
-                  loading="lazy"
-                  className="absolute inset-0 w-full h-full object-cover"
-                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                />
-                <span className="absolute inset-0 bg-ink/20 transition-colors group-hover:bg-ink/10" />
-                <span className="absolute inset-0 grid place-items-center">
+                <span className="pointer-events-none absolute inset-0 grid place-items-center">
                   <PlayButton />
+                </span>
+                <span className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 text-[13px] font-medium text-white/70">
+                  Смотреть · 9 минут
                 </span>
               </button>
             )}
